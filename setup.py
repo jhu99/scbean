@@ -13,6 +13,5 @@ setup(name='VIPCCA',
       author_email='jialuhu@umich.edu',
       license='MIT',
       packages=['VIPCCA'],
-      install_requires=['scanpy','anndata'],
       zip_safe=False,
       python_requires='>=3.6',)
