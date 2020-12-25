@@ -12,7 +12,6 @@ import seaborn as sns
 matplotlib.use('Agg')
 sns.set(style='white', rc={'figure.figsize':(5,5), 'figure.dpi':150})
 
-
 def read_sc_data(input_file,fmt='h5ad',backed=None,transpose=False,sparse=False,delimiter=" ",unique_name=True,batch_name=None,var_names="gene_symbols"):
 	if fmt=='10x_h5':
 		adata = sc.read_10x_h5(input_file)
@@ -40,8 +39,6 @@ def read_sc_data(input_file,fmt='h5ad',backed=None,transpose=False,sparse=False,
 	if batch_name is not None:
 		adata.obs["_batch"]=batch_name
 	return adata
-
-
 def add_location(adata):
 	adata_loc = AnnData(adata.obs[['xcoord','ycoord']])
 	adata = adata.T.concatenate(adata_loc.T, index_unique=None).T
@@ -56,7 +53,6 @@ def write2mtx(adata, path):
 	bc.to_csv(path+"annotation.tsv",sep="\t",index=True,header=False)
 	bc.to_csv(path+"barcodes.tsv",index=True,header=False,columns=[])
 	scipy.io.mmwrite(path+"matrix.mtx", adata.X.transpose().astype(int))
-
 def recipe_scxx(adata, n_top_genes =2000, ncounts=1e6, min_cells=10, min_genes=10, max_genes=2500,mt_ratio=0.05,lognorm=True,loc=False,filter=True,hvg=True):
 	if filter:
 			sc.pp.filter_genes(adata,min_cells=min_cells)
@@ -78,10 +74,7 @@ def recipe_scxx(adata, n_top_genes =2000, ncounts=1e6, min_cells=10, min_genes=1
 	adata_norm.raw = adata.copy()
 	return adata_norm, adata
 
-
-def preprocessing(datasets, min_cells=1, min_genes=1, n_top_genes=2000, mt_ratio=0.8, lognorm=True, hvg=True,
-				index_unique=None):
-
+def preprocessing(datasets,ncounts=1e6, min_cells=1, min_genes=1, max_genes=8000,n_top_genes =2000,rank=False,mt_ratio=0.8,lognorm=True, hvg=True, scale=1, method="lognorm",index_unique=None):
 	"""
 	Preprocess and merge data sets from different batches
 	Parameters
@@ -130,7 +123,7 @@ def preprocessing(datasets, min_cells=1, min_genes=1, n_top_genes=2000, mt_ratio
 			features = datasets[i].var_names[datasets[i].var['highly_variable']]
 			df_var.loc[features]+=1
 		df_var=df_var.loc[common_features]
-		df_var.sort_values(by="selected", ascending=False, inplace=True)
+		df_var.sort_values(by="selected",ascending=False,inplace=True)
 		selected_features=df_var.index[range(n_top_genes)]
 	else:
 		selected_features=common_features
@@ -141,7 +134,6 @@ def preprocessing(datasets, min_cells=1, min_genes=1, n_top_genes=2000, mt_ratio
 		else:
 			adata=adata.concatenate(datasets[i],index_unique =index_unique)
 	return adata
-
 def split_object(adata,by="batch"):
 	adata.obs[by]=adata.obs[by].astype("category")
 	index_cat = adata.obs[by].cat.categories
@@ -263,33 +255,5 @@ def generate_datasets_ext(adata,img_size=648,validation_split=0.2):
 		p+=1
 	return x_train, x_train_label, x_val, x_val_label
 
-def vipcca_preprocessing(self):
-		# if self.conf.rawdata is None:
-		# 	for i in range(len(self.conf.datasets)):
-		# 		if i==0:
-		# 			self.conf.rawdata=self.conf.datasets[i]
-		# 		else:
-		# 			self.conf.rawdata=self.conf.rawdata.concatenate(self.conf.datasets[i],index_unique =self.conf.index_unique)
-		adata_all= preprocessing(self.conf.datasets,max_genes=10000,method=self.conf.method, mt_ratio=self.conf.mt_ratio, lognorm=self.conf.lognorm, hvg=self.conf.hvg, index_unique=self.conf.index_unique)
-		if self.conf.keep_order:
-			cell_ind=self.conf.rawdata.obs_names
-			adata_all=adata_all[cell_ind]
-		batch_int=adata_all.obs[self.conf.split_by].astype("category").cat.codes.values
-		np.random.seed(2019)
-		batch_dic=np.random.randint(10, size=(np.max(batch_int)+1,self.conf.batch_input_size))
-		X_batch=np.zeros((len(batch_int),self.conf.batch_input_size))
-		batch_dic2=np.random.randint(10, size=(np.max(batch_int)+1,self.conf.batch_input_size2))
-		X_batch2=np.zeros((len(batch_int),self.conf.batch_input_size2))
-		for i in range(len(batch_int)):
-			X_batch[i,:]=batch_dic[batch_int[i],:]
-			X_batch2[i,:]=batch_dic2[batch_int[i],:]
-		adata_all.obsm["X_batch"]=X_batch
-		adata_all.obsm["X_batch2"]=X_batch2
-		# del x_batch X_batch2
-		cell_ind=adata_all.obs_names
-		gene_ind=adata_all.var_names
-		# adataraw=self.conf.rawdata[cell_ind]
-		# adataraw=adataraw[:,gene_ind]
-		# adata_all.raw=adataraw.copy()
-		# del adataraw
-		self.conf.adata_all = adata_all
+if __name__ == "__main__":
+   print("File one executed when ran directly")

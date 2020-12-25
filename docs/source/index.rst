@@ -3,15 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to VIPCCA's documentation!
+VIPCCA - Variational Inference ----
 ==================================
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
 
-	installation.md
-
+   installation
+   tutorials
+   API
+   preprocessing
+   modules
 
 
 Indices and tables

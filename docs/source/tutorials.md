@@ -1,4 +1,4 @@
-# Installation
+# Tutorials 
 
 
 
@@ -9,7 +9,7 @@ hello
 
 
 ```sh
-$ pip install vipcca
+$ import vipcca
 ```
 
 
