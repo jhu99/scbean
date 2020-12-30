@@ -1,2 +1,18 @@
 
 .DS_Store
+VIPCCA.egg-info/not-zip-safe
+VIPCCA.egg-info/dependency_links.txt
+VIPCCA.egg-info/PKG-INFO
+VIPCCA.egg-info/SOURCES.txt
+VIPCCA.egg-info/top_level.txt
+VIPCCA/__pycache__/__init__.cpython-37.pyc
+VIPCCA/__pycache__/vipcca.cpython-37.pyc
+VIPCCA/network/__pycache__/__init__.cpython-37.pyc
+VIPCCA/network/__pycache__/network.cpython-37.pyc
+VIPCCA/network/__pycache__/transferLabel.cpython-37.pyc
+VIPCCA/plotting/__pycache__/__init__.cpython-37.pyc
+VIPCCA/plotting/__pycache__/plotting.cpython-37.pyc
+VIPCCA/preprocessing/__pycache__/__init__.cpython-37.pyc
+VIPCCA/preprocessing/__pycache__/parser.cpython-37.pyc
+VIPCCA/preprocessing/__pycache__/preprocessing.cpython-37.pyc
+VIPCCA/preprocessing/__pycache__/qqnorm.cpython-37.pyc

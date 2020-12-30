@@ -2,9 +2,9 @@ import pandas as pd
 import numpy as np
 import scanpy as sc
 from keras.models import load_model
-from network import VAE, CVAE, CVAE2, CVAE3
-from preprocessing import logNormalization, read_sc_data, split_object, preprocessing
-from plotting import plotPrediction2, run_embedding, plotEmbedding
+from .network import VAE, CVAE, CVAE2, CVAE3
+from .preprocessing import logNormalization, read_sc_data, split_object, preprocessing
+from .plotting import plotPrediction2, run_embedding, plotEmbedding
 import argparse
 
 
@@ -38,10 +38,10 @@ class VIPCCA(object):
 	method: string, optional (default: 'lognorm')
 		the normalization method for input data, one of {"qqnorm","count", other}.
 
-	batch_input_size: int, optional (default: 16)
+	batch_input_size: int, optional (default: 128)
 		the length of the batch vector that concatenate with the input layer.
 
-	batch_input_size2: int, optional (default: 8)
+	batch_input_size2: int, optional (default: 16)
 		the length of the batch vector that concatenate with the latent layer.
 
 	activation: string, optional (default: "softplus")
@@ -53,7 +53,7 @@ class VIPCCA(object):
 	hidden_layers: list, optional (default: [128,64,32,16])
 		Number of hidden layer neurons in the network
 
-	lambda_regulizer: double, optional (default: 1.0)
+	lambda_regulizer: double, optional (default: 2.0)
 		The coefficient multiplied by KL_loss
 
 	initializer: string, optional (default: "glorot_uniform")
@@ -81,12 +81,12 @@ class VIPCCA(object):
 							split_by="_batch",
 							method="lognorm",
 							hvg=True,
-							batch_input_size=16,
-							batch_input_size2=8,
+							batch_input_size=128,
+							batch_input_size2=16,
 							activation="softplus",
 							dropout_rate=0.01,
 							hidden_layers=[128,64,32,16],
-							lambda_regulizer=1.0,
+							lambda_regulizer=2.0,
 							initializer="glorot_uniform",
 							l1_l2=(0.0, 0.0),
 							mode="CVAE",
