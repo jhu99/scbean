@@ -27,42 +27,40 @@ Read the doc url..........................
 
 #### Quick Start
 
+Download example data at http://141.211.10.196/result/test/papers/vipcca/data.tar.gz
+
 ```python
-import vipcca
-import preprocessing as pp
+import VIPCCA as vp
+from VIPCCA import preprocessing as pp
+from VIPCCA import plotting as pl
 
-mode="CVAE"
-lambda_regulizer=5
-batch_input_size=128
-batch_input_size2=16
+# read single-cell data.
+adata_b1 = pp.read_sc_data("./data/mixed_cell_lines/293t.h5ad", batch_name="293t")
+adata_b2 = pp.read_sc_data("./data/mixed_cell_lines/jurkat.h5ad", batch_name="jurkat")
+adata_b3 = pp.read_sc_data("./data/mixed_cell_lines/mixed.h5ad", batch_name="mixed")
 
-# load data
-test_result_path = './results/CVAE_5/'
-r1="./data/mixed_cell_lines/293t.h5ad"
-r2="./data/mixed_cell_lines/jurkat.h5ad"
-r4="./data/mixed_cell_lines/mixed.h5ad"
+# pp.preprocessing include filteration, log-TPM normalization, selection of highly variable genes.
+adata_all= pp.preprocessing([adata_b1, adata_b2, adata_b3])
 
-adata_b1 = pp.read_sc_data(r1, batch_name="293t")
-adata_b2 = pp.read_sc_data(r2, batch_name="jurkat")
-adata_b4 = pp.read_sc_data(r4, batch_name="mixed")
-
-# Preprocessing
-adata_all = pp.preprocessing([adata_b1, adata_b2, adata_b4], mt_ratio=0.8,)
-
-# Construct and train model
-handle = vipcca.VIPCCA(
+# VIPCCA will train the neural network on the provided datasets.
+handle = vp.VIPCCA(
 							adata_all,
-							res_path=test_result_path,
-							mode=mode,
+							res_path='./results/CVAE_5/',
 							split_by="_batch",
 							patience_es=50,
 							patience_lr=20,
-							lambda_regulizer=lambda_regulizer,
-							batch_input_size=batch_input_size,
-							batch_input_size2=batch_input_size2,
-							model_file="model.h5"
+							lambda_regulizer=5,
+							# uncomment the following line if a pretrained model was provided in the result folder.
+							# model_file="model.h5" 
 							)
-adata_integeation = handle.fit_transform()
+
+# transform user's single-cell data into shared low-dimensional space and recover gene expression.
+adata_transform=handle.fit_transform()
+
+# Visualization
+pl.run_embedding(adata_transform, path=test_result_path,method="umap")
+pl.plotEmbedding(adata_transform, path=test_result_path, method='umap', group_by="_batch",legend_loc="right margin")
+pl.plotEmbedding(adata_transform, path=test_result_path, method='umap', group_by="celltype",legend_loc="on data")
 ```
 
 
