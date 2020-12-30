@@ -2,9 +2,6 @@ import pandas as pd
 import numpy as np
 import scanpy as sc
 from keras.models import load_model
-from network import VAE, CVAE, CVAE2, CVAE3
-from preprocessing import logNormalization, read_sc_data, split_object, preprocessing
-from plotting import plotPrediction2, run_embedding, plotEmbedding
 import argparse
 
 
@@ -71,6 +68,7 @@ class VIPCCA(object):
 	save: bool, optional (default: True)
 		If true, save output adata file.
 
+
 	"""
 	def __init__(self,
 				 adata_all = None,
@@ -128,9 +126,7 @@ class VIPCCA(object):
 		self.conf.adata_all.obsm["X_batch2"]=X_batch2
 
 	def build(self):
-		"""
-		build VIPCCA network
-		"""
+
 		if self.conf.mode=="CVAE":
 			net = CVAE(input_size=self.conf.adata_all.shape[1],
 					path=self.conf.res_path,

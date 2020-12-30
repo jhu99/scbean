@@ -10,40 +10,86 @@ import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 matplotlib.use('Agg')
-sns.set(style='white', rc={'figure.figsize':(5,5), 'figure.dpi':150})
+sns.set(style='white', rc={'figure.figsize': (5, 5), 'figure.dpi': 150})
 
-def read_sc_data(input_file,fmt='h5ad',backed=None,transpose=False,sparse=False,delimiter=" ",unique_name=True,batch_name=None,var_names="gene_symbols"):
-	if fmt=='10x_h5':
+
+def read_sc_data(input_file, fmt='h5ad', backed=None, transpose=False, sparse=False, delimiter=" ", unique_name=True,
+				batch_name=None, var_names="gene_symbols"):
+
+	"""\
+	Read single cell dataset
+
+	Params
+	------
+
+	input_file : string
+		The path of the file to be read.
+
+	fmt : string, optional (default: 'h5ad')
+		The file type of the file to be read.
+
+	backed : Union[Literal[‘r’, ‘r+’], bool, None] (default: None)
+		If 'r', load AnnData in backed mode instead of fully loading it into memory (memory mode).
+		If you want to modify backed attributes of the AnnData object, you need to choose 'r+'.
+
+	transpose: bool, optional (default: False)
+		Whether to transpose the read data.
+
+	sparse: bool, optional (default: False)
+		Whether the data in the dataset is stored in sparse matrix format.
+
+	delimiter: str,  optional (default: ' ')
+		Delimiter that separates data within text file. If None, will split at arbitrary number of white spaces,
+		which is different from enforcing splitting at single white space ' '.
+
+	unique_name: bool, optional (default: False)
+		If Ture, AnnData object execute var_names_make_unique() and obs_names_make_unique() functions.
+
+	batch_name: string, optional (default: None)
+		Batch name of current batch data
+
+	var_names: Literal[‘gene_symbols’, ‘gene_ids’] (default: 'gene_symbols')
+		The variables index when the file type is 'mtx'.
+
+	Returns
+	-------
+	AnnData
+	"""
+	if fmt == '10x_h5':
 		adata = sc.read_10x_h5(input_file)
-	elif fmt=='10x_mtx':
-		adata = sc.read_10x_mtx(input_file,var_names=var_names)
-	elif fmt=="mtx":
+	elif fmt == '10x_mtx':
+		adata = sc.read_10x_mtx(input_file, var_names=var_names)
+	elif fmt == "mtx":
 		adata = sc.read_mtx(input_file)
-	elif fmt=='h5ad':
-		adata = sc.read_h5ad(input_file,backed=backed)
-	elif fmt=="csv":
+	elif fmt == 'h5ad':
+		adata = sc.read_h5ad(input_file, backed=backed)
+	elif fmt == "csv":
 		adata = sc.read_csv(input_file)
-	elif fmt=="txt":
-		adata = sc.read_text(input_file,delimiter=delimiter)
-	elif fmt=="tsv":
-		adata = sc.read_text(input_file,delimiter="\t")
+	elif fmt == "txt":
+		adata = sc.read_text(input_file, delimiter=delimiter)
+	elif fmt == "tsv":
+		adata = sc.read_text(input_file, delimiter="\t")
 	else:
 		raise ValueError('`format` needs to be \'10x_h5\' or \'10x_mtx\'')
 	if transpose:
 		adata = adata.transpose()
 	if sparse:
-		adata.X = csr_matrix(adata.X,dtype='float32')
+		adata.X = csr_matrix(adata.X, dtype='float32')
 	if unique_name:
 		adata.var_names_make_unique()
 		adata.obs_names_make_unique()
 	if batch_name is not None:
 		adata.obs["_batch"]=batch_name
 	return adata
+
+
 def add_location(adata):
 	adata_loc = AnnData(adata.obs[['xcoord','ycoord']])
 	adata = adata.T.concatenate(adata_loc.T, index_unique=None).T
 	adata.obs.rename(columns={'xcoord-0':'xcoord','ycoord-0':'ycoord'},inplace=True)
 	return adata
+
+
 def write2mtx(adata, path):
 	if not os.path.exists(path):
 		os.makedirs(path)
@@ -53,7 +99,9 @@ def write2mtx(adata, path):
 	bc.to_csv(path+"annotation.tsv",sep="\t",index=True,header=False)
 	bc.to_csv(path+"barcodes.tsv",index=True,header=False,columns=[])
 	scipy.io.mmwrite(path+"matrix.mtx", adata.X.transpose().astype(int))
-def recipe_scxx(adata, n_top_genes =2000, ncounts=1e6, min_cells=10, min_genes=10, max_genes=2500,mt_ratio=0.05,lognorm=True,loc=False,filter=True,hvg=True):
+
+
+def recipe_vipcca(adata, n_top_genes=2000, ncounts=1e6, min_cells=10, min_genes=10, max_genes=2500,mt_ratio=0.05,lognorm=True,loc=False,filter=True,hvg=True):
 	if filter:
 			sc.pp.filter_genes(adata,min_cells=min_cells)
 			sc.pp.filter_cells(adata,min_genes=min_genes)
@@ -74,32 +122,44 @@ def recipe_scxx(adata, n_top_genes =2000, ncounts=1e6, min_cells=10, min_genes=1
 	adata_norm.raw = adata.copy()
 	return adata_norm, adata
 
-def preprocessing(datasets,ncounts=1e6, min_cells=1, min_genes=1, max_genes=8000,n_top_genes =2000,rank=False,mt_ratio=0.8,lognorm=True, hvg=True, scale=1, method="lognorm",index_unique=None):
-	"""
+
+def preprocessing(datasets, min_cells=1, min_genes=1, n_top_genes=2000, mt_ratio=0.8, lognorm=True, hvg=True,
+				index_unique=None):
+
+	"""\
 	Preprocess and merge data sets from different batches
+
 	Parameters
-    ----------
+	----------
 
-	datasets: list, optional, default: None
-	the list of anndata objects from different batches
+	datasets: list, optional (default: None)
+		the list of anndata objects from different batches
 
-	min_cells:
-	Minimum number of counts required for a cell to pass filtering.
+	min_cells: int, optional (default: 1)
+		Minimum number of counts required for a cell to pass filtering.
 
-	min_genes: Minimum number of counts required for a gene to pass filtering.
+	min_genes: int, optional (default: 1)
+		Minimum number of counts required for a gene to pass filtering.
 
-	n_top_genes: Number of highly-variable genes to keep.
+	n_top_genes: int, optional (default: 2000)
+		Number of highly-variable genes to keep.
 
-	mt_ratio: Maximum proportion of mito genes for a cell to pass filtering.
+	mt_ratio: double, optional (default: 0.8)
+		Maximum proportion of mito genes for a cell to pass filtering.
 
-	lognorm: Whether to use lognorm
+	lognorm: bool, optional (default: True)
+		If True, execute lognorm() function.
 
-	hvg: Whether to choose hypervariable genes
+	hvg: bool, optional (default: True)
+		If True, choose hypervariable genes for AnnData object.
 
-	index_unique: Make the index unique by joining the existing index names with the batch category, using
-	index_unique='-', for instance. Provide None to keep existing indices.
+	index_unique: string, optional (default: None)
+		Make the index unique by joining the existing index names with the batch category, using
+		index_unique='-', for instance. Provide None to keep existing indices.
 
-	return: adata
+	Returns
+	-------
+	AnnData
 	"""
 	if lognorm:
 		for i in range(len(datasets)):
@@ -123,7 +183,7 @@ def preprocessing(datasets,ncounts=1e6, min_cells=1, min_genes=1, max_genes=8000
 			features = datasets[i].var_names[datasets[i].var['highly_variable']]
 			df_var.loc[features]+=1
 		df_var=df_var.loc[common_features]
-		df_var.sort_values(by="selected",ascending=False,inplace=True)
+		df_var.sort_values(by="selected", ascending=False, inplace=True)
 		selected_features=df_var.index[range(n_top_genes)]
 	else:
 		selected_features=common_features
@@ -134,6 +194,8 @@ def preprocessing(datasets,ncounts=1e6, min_cells=1, min_genes=1, max_genes=8000
 		else:
 			adata=adata.concatenate(datasets[i],index_unique =index_unique)
 	return adata
+
+
 def split_object(adata,by="batch"):
 	adata.obs[by]=adata.obs[by].astype("category")
 	index_cat = adata.obs[by].cat.categories
@@ -142,6 +204,8 @@ def split_object(adata,by="batch"):
 		data=adata[adata.obs[by]==cat,:]
 		datasets.append(data)
 	return datasets
+
+
 def scale(adata,max_value=None,use_rep=None):
 	if use_rep is None:
 		sc.pp.scale(adata,max_value=max_value)
@@ -149,9 +213,13 @@ def scale(adata,max_value=None,use_rep=None):
 		maxv=adata.obsm[use_rep].max(0)
 		minv=adata.obsm[use_rep].min(0)
 		adata.obsm[use_rep]=(adata.obsm[use_rep]-minv)/(maxv-minv)
+
+
 def rank_normalization(adata,n_quantiles=2000):
 	qt = QuantileTransformer(n_quantiles=n_quantiles,output_distribution='normal',ignore_implicit_zeros=False)
 	adata.X = qt.fit_transform(adata.X.toarray())
+
+
 def logNormalization(adata,loc=False):
 	adata.obs['n_counts'] = adata.X.sum(axis=1).A1
 	adata.obs['size_factor']=adata.obs['n_counts']/1e6
@@ -165,6 +233,8 @@ def logNormalization(adata,loc=False):
 	else:
 		sc.pp.log1p(adata)
 		return adata
+
+
 def createCoordination(adata, result_path=None, plot=False, resolution=1):
 	xmax=np.ceil(adata.obs.xcoord.max())+resolution
 	ymax=np.ceil(adata.obs.ycoord.max())+resolution
@@ -189,6 +259,7 @@ def createCoordination(adata, result_path=None, plot=False, resolution=1):
 		plt.close()
 	return img_size, img_size, size_factor
 
+
 def generate_img_from_genes(adata,img_size=648,batch_size=32, cols=[6,7]):
 	while True:
 		for i in range(adata.shape[1]):
@@ -198,6 +269,7 @@ def generate_img_from_genes(adata,img_size=648,batch_size=32, cols=[6,7]):
 			yy = adata.obs.iloc[ind,cols[1]].values
 			img = csr_matrix((data,(yy,xx)),shape=(img_size,img_size),dtype="f4").toarray().reshape(1,img_size,img_size,1)
 			yield (img,img)
+
 
 def generate_datasets(adata,img_size=648, cols=[6,7], count_only=False):
 	n_genes=adata.shape[1]
@@ -224,7 +296,8 @@ def generate_datasets(adata,img_size=648, cols=[6,7], count_only=False):
 # generator_train=datagen.flow(x_train, x_train_label, batch_size=batch_size)
 # generator_val=datagen.flow(x_val, x_val_label, batch_size=batch_size)
 # unet.fit_gen(generator_train, validation_data=generator_val)
-		
+
+
 def generate_datasets_ext(adata,img_size=648,validation_split=0.2):
 	n_genes=adata.shape[1]
 	samples_for_train=n_genes-np.int(n_genes*validation_split)
@@ -255,5 +328,3 @@ def generate_datasets_ext(adata,img_size=648,validation_split=0.2):
 		p+=1
 	return x_train, x_train_label, x_val, x_val_label
 
-if __name__ == "__main__":
-   print("File one executed when ran directly")

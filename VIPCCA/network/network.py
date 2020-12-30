@@ -15,6 +15,7 @@ from keras.utils import plot_model
 from keras.losses import mse, binary_crossentropy
 from scipy.sparse import csr_matrix
 
+
 def sampling(args):
 	z_mean, z_log_var = args
 	batch = K.shape(z_mean)[0]
@@ -133,7 +134,7 @@ class VAE:
 		yadata.raw=AnnData(X=xadata.raw.X,var=xadata.raw.var)
 		if save:
 			yadata.write(self.path+"output.h5ad")
-		yadata.obsm['X_scxx']=z_mean
+		yadata.obsm['X_vipcca']=z_mean
 		return yadata
 
 class CVAE(VAE):
@@ -221,11 +222,11 @@ class CVAE(VAE):
 			# self.vae=load_model(self.path+model_file)
 			self.vae.load_weights(self.path+model_file)
 		else:
-			self.vae.fit([adata.X, adata.obsm['X_batch'], adata.obsm['X_batch2']], epochs=epochs, batch_size=batch_size, callbacks=self.callbacks, validation_split=self.validation_split, shuffle=True)
+			self.vae.fit([adata.X.A, adata.obsm['X_batch'], adata.obsm['X_batch2']], epochs=epochs, batch_size=batch_size, callbacks=self.callbacks, validation_split=self.validation_split, shuffle=True)
 			self.vae.save(self.path+"model.h5")
 	
 	def integrate(self, xadata, save=True, use_mean=True):
-		[z_mean, z_log_var, z_batch] = self.encoder.predict([xadata.X, xadata.obsm['X_batch']])
+		[z_mean, z_log_var, z_batch] = self.encoder.predict([xadata.X.A, xadata.obsm['X_batch']])
 		if use_mean:
 			z_samples=z_mean
 		else:
@@ -234,14 +235,14 @@ class CVAE(VAE):
 		y_mean = self.decoder.predict([z_samples,xadata.obsm['X_batch2']])
 		yadata = AnnData(X=y_mean, obs=xadata.obs, var=xadata.var)
 		yadata.raw=xadata.copy()
-		yadata.obsm['X_scxx']=z_mean
+		yadata.obsm['X_vipcca']=z_mean
 		
 		i_mean = self.decoder.predict([z_samples,np.tile(xadata.obsm['X_batch2'][1],(xadata.shape[0],1))])
 		iadata = AnnData(X=i_mean, obs=xadata.obs, var=xadata.var)
 		i_mean[i_mean<0.1]=0
 		iadata.raw = AnnData(X=csr_matrix(i_mean), obs=xadata.obs, var=xadata.var)
-		iadata.obsm['X_scxx']=z_mean
-		
+		iadata.obsm['X_vipcca']=z_mean
+
 		if save:
 			iadata.write(self.path+"output.h5ad")
 		return yadata
@@ -339,14 +340,14 @@ class CVAE2(VAE):
 			iadata = AnnData(X=i_mean, obs=xadata.obs, var=xadata.var)
 			i_mean[i_mean<0.1]=0
 			iadata.raw = AnnData(X=csr_matrix(i_mean), obs=xadata.obs, var=xadata.var)
-			iadata.obsm['X_scxx']=z_mean
+			iadata.obsm['X_vipcca']=z_mean
 			iadata.write(self.path+"output.h5ad")
 		else:
 			i_mean = self.decoder.predict([z_samples,xadata.obsm['X_batch']])
 			iadata = AnnData(X=i_mean, obs=xadata.obs, var=xadata.var)
 			i_mean[i_mean<0.1]=0
 			iadata.raw = AnnData(X=csr_matrix(i_mean), obs=xadata.obs, var=xadata.var)
-			iadata.obsm['X_scxx']=z_mean
+			iadata.obsm['X_vipcca']=z_mean
 			iadata.write(self.path+"output_dsy.h5ad")
 		return iadata
 
@@ -443,13 +444,13 @@ class CVAE3(VAE):
 		y_mean = self.decoder.predict([z_mean_prime])
 		yadata = AnnData(X=y_mean, obs=xadata.obs, var=xadata.var)
 		yadata.raw=xadata.copy()
-		yadata.obsm['X_scxx']=z_mean
-		yadata.obsm['X_scxx2']=z_mean_prime
+		yadata.obsm['X_vipcca']=z_mean
+		yadata.obsm['X_vipcca']=z_mean_prime
 		p_mean = self.decoder.predict([z_mean_prime])
 		padata = AnnData(X=y_mean, obs=xadata.obs, var=xadata.var)
 		padata.raw=xadata.copy()
-		padata.obsm['X_scxx']=z_mean
-		padata.obsm['X_scxx2']=z_mean_prime
+		padata.obsm['X_vipcca']=z_mean
+		padata.obsm['X_vipcca']=z_mean_prime
 		if save:
 			yadata.write(self.path+"output.h5ad")
 			padata.write(self.path+"integrated.h5ad")

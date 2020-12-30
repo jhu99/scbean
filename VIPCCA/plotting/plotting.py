@@ -18,12 +18,12 @@ pl.rcParams.update(params)
 #sns.set(style='white', rc={'figure.figsize':(5,5), 'figure.dpi':150})
 
 def run_embedding(adata,path="./",n_neighbors=15, init=None, method='umap', resolution=1.0, min_dist=0.5):
-	sc.pp.neighbors(adata,use_rep='X_scxx')
+	sc.pp.neighbors(adata,use_rep='X_vipcca')
 	sc.tl.louvain(adata, directed=False,resolution =resolution)
 	if method in ("umap","all"):
 		sc.tl.umap(adata,min_dist=min_dist)
 	if method in ("tsne","all"):
-		sc.tl.tsne(adata, use_rep="X_scxx",n_jobs=20)
+		sc.tl.tsne(adata, use_rep="X_vipcca",n_jobs=20)
 
 def plotEmbedding(adata,path,group_by="batch",ncol=5, method="umap",legend_loc=None,frameon=True,legend_fontsize=6,title=""):
 	filename=path+"2dplot_"+group_by+"_"+method+".png"

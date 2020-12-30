@@ -7,13 +7,11 @@ VIPCCA - Variational Inference ----
 ==================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    installation
    tutorials
-   API
-   preprocessing
-   modules
+   api
 
 
 Indices and tables
