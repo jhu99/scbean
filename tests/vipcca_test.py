@@ -15,11 +15,8 @@ handle = vp.VIPCCA(
 							adata_all,
 							res_path='./results/CVAE_5/',
 							split_by="_batch",
-							patience_es=50,
-							patience_lr=20,
+							epochs=100,
 							lambda_regulizer=5,
-							# uncomment the following line if a pretrained model was provided in the result folder.
-							# model_file="model.h5" 
 							)
 
 # transform user's single-cell data into shared low-dimensional space and recover gene expression.
