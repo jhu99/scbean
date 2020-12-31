@@ -222,11 +222,11 @@ class CVAE(VAE):
 			# self.vae=load_model(self.path+model_file)
 			self.vae.load_weights(self.path+model_file)
 		else:
-			self.vae.fit([adata.X.A, adata.obsm['X_batch'], adata.obsm['X_batch2']], epochs=epochs, batch_size=batch_size, callbacks=self.callbacks, validation_split=self.validation_split, shuffle=True)
+			self.vae.fit([adata.X, adata.obsm['X_batch'], adata.obsm['X_batch2']], epochs=epochs, batch_size=batch_size, callbacks=self.callbacks, validation_split=self.validation_split, shuffle=True)
 			self.vae.save(self.path+"model.h5")
 	
 	def integrate(self, xadata, save=True, use_mean=True):
-		[z_mean, z_log_var, z_batch] = self.encoder.predict([xadata.X.A, xadata.obsm['X_batch']])
+		[z_mean, z_log_var, z_batch] = self.encoder.predict([xadata.X, xadata.obsm['X_batch']])
 		if use_mean:
 			z_samples=z_mean
 		else:
