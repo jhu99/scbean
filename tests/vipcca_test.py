@@ -26,6 +26,6 @@ handle = vp.VIPCCA(
 adata_transform=handle.fit_transform()
 
 # Visualization
-pl.run_embedding(adata_transform, path=test_result_path,method="umap")
-pl.plotEmbedding(adata_transform, path=test_result_path, method='umap', group_by="_batch",legend_loc="right margin")
-pl.plotEmbedding(adata_transform, path=test_result_path, method='umap', group_by="celltype",legend_loc="on data")
+pl.run_embedding(adata_transform, path='./results/CVAE_5/',method="umap")
+pl.plotEmbedding(adata_transform, path='./results/CVAE_5/', method='umap', group_by="_batch",legend_loc="right margin")
+pl.plotEmbedding(adata_transform, path='./results/CVAE_5/', method='umap', group_by="celltype",legend_loc="on data")
