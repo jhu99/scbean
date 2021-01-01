@@ -12,7 +12,7 @@ introduction......
 ```shell
 
 $ conda create -n VIPCCA python=3.6
-# conda activate VIPCCA
+$ conda activate VIPCCA
 ```
 For more information, see https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html
 
