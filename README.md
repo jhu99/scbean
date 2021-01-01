@@ -7,18 +7,21 @@ introduction......
 
 ............
 
-### Install VIPCCA
-```shell
-$ tar -zxvf scxx.x.x.x.tar.gz
-$ pip install -e ./scxx/
-```
+### Install VIPCCA from pypi
 
 ```shell
-$ pip install vipcca
+
+$ pip install VIPCCA
 ```
 
-**Note**: you need to make sure that the `pip` is for python3. Our package is suitable for tensorflow 1.13.1
+### Install VIPCCA from GitHub source code
+```shell
 
+$ git clone 
+$ pip install -e ./VIPCCA/
+```
+
+**Note**: you need to make sure that the `pip` is for python3.6 or python3.7. The current release depends on tensorflow with version 1.13.1.
 
 
 ### Usage
@@ -63,9 +66,4 @@ pl.plotEmbedding(adata_transform, path=test_result_path, method='umap', group_by
 pl.plotEmbedding(adata_transform, path=test_result_path, method='umap', group_by="celltype",legend_loc="on data")
 ```
 
-
-
-
-#### reference
-https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
 
