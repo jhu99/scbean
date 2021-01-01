@@ -7,6 +7,15 @@ introduction......
 
 ............
 
+### Create conda enviroment
+
+```shell
+
+$ conda create -n VIPCCA python=3.6
+# conda activate VIPCCA
+```
+For more information, see https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html
+
 ### Install VIPCCA from pypi
 
 ```shell
@@ -17,11 +26,11 @@ $ pip install VIPCCA
 ### Install VIPCCA from GitHub source code
 ```shell
 
-$ git clone 
+$ git clone https://github.com/jhu99/VIPCCA.git
 $ pip install -e ./VIPCCA/
 ```
 
-**Note**: you need to make sure that the `pip` is for python3.6 or python3.7. The current release depends on tensorflow with version 1.13.1.
+**Note**: Please make sure that the `pip` is for python3.6. The current release depends on tensorflow with version 1.13.1. Install tenserfolow-gpu if gpu is avialable on the machine.
 
 
 ### Usage
@@ -50,20 +59,17 @@ handle = vp.VIPCCA(
 							adata_all,
 							res_path='./results/CVAE_5/',
 							split_by="_batch",
-							patience_es=50,
-							patience_lr=20,
+							epochs=100,
 							lambda_regulizer=5,
-							# uncomment the following line if a pretrained model was provided in the result folder.
-							# model_file="model.h5" 
 							)
 
 # transform user's single-cell data into shared low-dimensional space and recover gene expression.
 adata_transform=handle.fit_transform()
 
 # Visualization
-pl.run_embedding(adata_transform, path=test_result_path,method="umap")
-pl.plotEmbedding(adata_transform, path=test_result_path, method='umap', group_by="_batch",legend_loc="right margin")
-pl.plotEmbedding(adata_transform, path=test_result_path, method='umap', group_by="celltype",legend_loc="on data")
+pl.run_embedding(adata_transform, path='./results/CVAE_5/',method="umap")
+pl.plotEmbedding(adata_transform, path='./results/CVAE_5/', method='umap', group_by="_batch",legend_loc="right margin")
+pl.plotEmbedding(adata_transform, path='./results/CVAE_5/', method='umap', group_by="celltype",legend_loc="on data")
 ```
 
 
