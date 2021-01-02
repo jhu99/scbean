@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 install_requires = [
       'scanpy==1.6.0',
-      'tensorflow==1.13.1',
+      'tensorflow',
       'anndata',
       'scipy',
       'pandas',
