@@ -1,9 +1,9 @@
 API
-====================
+==============================================================================
 
 Preprocessing
 -------
-.. automodule:: preprocessing
+.. automodule:: VIPCCA.preprocessing
    :members: preprocessing,read_sc_data
    :undoc-members: 
    :show-inheritance:
@@ -12,7 +12,7 @@ Preprocessing
 VIPCCA
 -------
 
-.. automodule:: vipcca
+.. automodule:: VIPCCA.vipcca
    :members:
    :undoc-members:
    :show-inheritance:

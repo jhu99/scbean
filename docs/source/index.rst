@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-VIPCCA - Variational Inference ----
-==================================
+VIPCCA - Variational Inference 
+=========================================================
 
 .. toctree::
    :maxdepth: 2
