@@ -36,7 +36,7 @@ $ pip install -e ./VIPCCA/
 
 ### Usage
 
-Read the doc url..........................
+https://vipcca.readthedocs.io/en/latest/
 
 #### Quick Start
 
