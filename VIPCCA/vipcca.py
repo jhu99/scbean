@@ -13,7 +13,7 @@ class Conf(object):
 
 
 class VIPCCA(object):
-	"""
+	"""\
 	Initialize VIPCCA object
 
 	Parameters
