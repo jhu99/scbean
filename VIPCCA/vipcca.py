@@ -70,8 +70,8 @@ class VIPCCA(object):
 
 	save: bool, optional (default: True)
 		If true, save output adata file.
-
 	"""
+	
 	def __init__(self,
 				 adata_all = None,
 							patience_es=50,
