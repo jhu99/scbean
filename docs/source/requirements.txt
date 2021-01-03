@@ -6,5 +6,6 @@ scipy>=1.1.0
 matplotlib>=2.0.1
 future
 graphtools>=1.0.0
-sphinx
+sphinx==3.2.1
+sphinx_rtd_theme==0.5.0
 sphinxcontrib-napoleon
