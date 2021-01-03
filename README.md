@@ -1,5 +1,6 @@
 # VIPCCA
-Badges-----------------
+[![Documentation Status](https://readthedocs.org/projects/vipcca/badge/?version=latest)](https://vipcca.readthedocs.io/en/latest/?badge=latest)
+
 
 Variational inference of probabilistic canonical correlation analysis
 
