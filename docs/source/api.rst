@@ -2,7 +2,7 @@ API
 ==============================================================================
 
 Preprocessing
--------
+---------------------
 .. automodule:: VIPCCA.preprocessing
    :members: preprocessing,read_sc_data
    :undoc-members: 
@@ -10,7 +10,7 @@ Preprocessing
 
 
 VIPCCA
--------
+---------------------
 
 .. automodule:: VIPCCA.vipcca
    :members:
