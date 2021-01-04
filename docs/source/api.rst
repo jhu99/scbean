@@ -4,7 +4,7 @@ API
 Preprocessing
 ---------------------
 .. automodule:: VIPCCA.preprocessing
-   :members: preprocessing,read_sc_data
+   :members: 
    :undoc-members: 
    :show-inheritance:
 
