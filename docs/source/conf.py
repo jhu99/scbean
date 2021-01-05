@@ -12,7 +12,7 @@
 #
 import os
 import sys
-# sys.path.insert(0, os.path.abspath('./vipcca'))
+# sys.path.insert(0, os.path.abspath('../..'))
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, root_dir)
@@ -71,8 +71,9 @@ source_suffix = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-import mock
+# import mock
 
-MOCK_MODULES = ['numpy', 'scipy', 'sklearn', 'matplotlib', 'matplotlib.pyplot', 'scipy.interpolate', 'scipy.special', 'math', '__future__', 'toolboxutilities']
-for mod_name in MOCK_MODULES:
-    sys.modules[mod_name] = mock.Mock()
+# MOCK_MODULES = ['numpy', 'scipy', 'sklearn', 'matplotlib', 'matplotlib.pyplot', 
+# 'scipy.interpolate', # 'scipy.special', 'math', '__future__', 'toolboxutilities']
+# for mod_name in MOCK_MODULES:
+#     sys.modules[mod_name] = mock.Mock()

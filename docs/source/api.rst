@@ -3,9 +3,9 @@ API
 
 Preprocessing
 ---------------------
-.. automodule:: VIPCCA.preprocessing
+.. automodule:: VIPCCA.preprocessing.preprocessing
    :members: 
-   :undoc-members: 
+   :undoc-members:
    :show-inheritance:
 
 
