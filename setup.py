@@ -16,9 +16,9 @@ install_requires = [
       'python-igraph',
       'louvain'
 ]
-setup(name='VIPCCA',
-      version='0.1.5',
-      description='VIPCCA',
+setup(name='vipcca',
+      version='0.1.9',
+      description='integration',
       long_description=long_description,
       long_description_content_type="text/markdown",
       url='https://github.com/JHuLab/VIPCCA',
