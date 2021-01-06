@@ -3,7 +3,7 @@ API
 
 Preprocessing
 ---------------------
-.. automodule:: VIPCCA.preprocessing.preprocessing
+.. automodule:: vipcca.preprocessing.preprocessing
    :members: 
    :undoc-members:
    :show-inheritance:
@@ -12,7 +12,7 @@ Preprocessing
 VIPCCA
 ---------------------
 
-.. automodule:: VIPCCA.vipcca
+.. automodule:: vipcca.vipcca
    :members:
    :undoc-members:
    :show-inheritance:

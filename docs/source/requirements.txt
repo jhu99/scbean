@@ -99,3 +99,6 @@ urllib3==1.25.10
 Werkzeug==1.0.1
 wrapt==1.12.1
 zipp==3.1.0
+ipython==7.19.0
+ipython-genutils==0.2.0
+nbsphinx==0.8.0

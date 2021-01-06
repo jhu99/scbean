@@ -10,7 +10,7 @@ VIPCCA - Variational Inference
    :maxdepth: 2
 
    installation
-   tutorials
+   tutorials/index.rst
    api
 
 
