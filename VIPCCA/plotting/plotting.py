@@ -4,7 +4,7 @@ import matplotlib
 import matplotlib.pyplot as pl
 import seaborn as sns
 import numpy as np
-matplotlib.use('Agg')
+matplotlib.use('TkAgg')
 
 fontsize=15
 params = {'legend.fontsize': fontsize,
@@ -122,11 +122,13 @@ def plotQQdeg(adata,path,groupby="batch",method="wilcoxon"):
 	df.to_csv(path+"markers_"+groupby+"_"+method+".csv")
 	pvals=adata.uns['rank_genes_groups']['pvals_adj']['0']+1e-260
 
+
 def plotQQdeg2(adata,path,groupby="batch",method="wilcoxon"):
 	for c in adata.obs.cell_type.cat.categories.values:
 		adatatemp= adata[adata.obs.cell_type==c,:]
 		patht=path+"pvals"+c.replace("/","_")
 		plotQQdeg(adatatemp,patht)
+
 
 def plotPrediction(err,result_path):
 	err=err[err<1000]
@@ -135,18 +137,51 @@ def plotPrediction(err,result_path):
 	pl.savefig(result_path+"square_error.png")
 	pl.close()
 
-def plotPrediction2(y,y_pred,result_path, ind=None, rnum=1e4,lim=20):
+
+def plotPrediction2(y,y_pred, save=True, result_path='./', show=True, rnum=1e4, lim=20):
+	"""\
+	Plot correlation between original data and corrected data
+
+	Parameters
+	----------
+
+	y: matrix or csr_matrix
+		The original data matrix.
+
+	y_pred: matrix or csr_matrix
+		The data matrix integrated by vipcca.
+
+	save: bool, optional (default: True)
+		If True, save the figure into result_path.
+
+	result_path: string, optional (default: './')
+		The path for saving the figure.
+
+	show: bool, optional (default: True)
+		If True, show the figure.
+
+	rnum: double, optional (default: 1e4)
+		The number of points you want to sample randomly in the matrix.
+
+	lim: int, optional (default: 20)
+		the right parameter of matplotlib.pyplot.xlim(left, right)
+
+	"""
 	from scipy.sparse import csr_matrix
-	if(isinstance(y,csr_matrix)):
-		y=y.toarray()
-	rx=np.random.choice(y.shape[0],np.int(rnum), replace=True)
-	ry=np.random.choice(y.shape[1],np.int(rnum), replace=True)
-	pl.scatter(y[rx,ry], y_pred[rx,ry], c='r', s=1)
-	pl.xlim(-1,lim)
-	pl.ylim(-1,lim)
+	if (isinstance(y, csr_matrix)):
+		y = y.toarray()
+	rx = np.random.choice(y.shape[0], np.int(rnum), replace=True)
+	ry = np.random.choice(y.shape[1], np.int(rnum), replace=True)
+	pl.rcParams['figure.figsize'] = (8, 7)
+	pl.scatter(y[rx, ry], y_pred[rx, ry], c='r', s=1)
+	pl.xlim(-1, lim)
+	pl.ylim(-1, lim)
 	pl.xlabel('uncorrected_x')
 	pl.ylabel('corrected_x')
-	pl.savefig(result_path+"corrected_x.png")
+	if show:
+		pl.show()
+	if save:
+		pl.savefig(result_path+"correlation.png")
 	
 	
 	
