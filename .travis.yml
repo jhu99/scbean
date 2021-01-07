@@ -1,0 +1,5 @@
+language: python
+sudo: required
+before_install: sudo pip install vipcca
+script: 
+  python -c "import vipcca"
