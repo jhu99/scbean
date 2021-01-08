@@ -4,7 +4,9 @@ Tutorials for VIPCCA
 .. toctree::
    :maxdepth: 2
 
-   pbmc_tutorial
+   mixed_cell_lines_tutorial
+   R_analyses
+   atac_tutorial
 
 
 Indices and tables
