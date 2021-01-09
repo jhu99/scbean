@@ -4,7 +4,7 @@ import scanpy as sc
 from keras.models import load_model
 from .network import VAE, CVAE, CVAE2, CVAE3
 from .preprocessing import logNormalization, read_sc_data, split_object, preprocessing
-from .plotting import plotPrediction2, run_embedding, plotEmbedding
+from .plotting import plotCorrelation, run_embedding, plotEmbedding
 import argparse
 
 

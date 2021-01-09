@@ -138,7 +138,7 @@ def plotPrediction(err,result_path):
 	pl.close()
 
 
-def plotPrediction2(y,y_pred, save=True, result_path='./', show=True, rnum=1e4, lim=20):
+def plotCorrelation(y,y_pred, save=True, result_path='./', show=True, rnum=1e4, lim=20):
 	"""\
 	Plot correlation between original data and corrected data
 

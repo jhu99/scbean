@@ -14,10 +14,11 @@ install_requires = [
       'seaborn',
       'keras==2.3',
       'python-igraph',
-      'louvain'
+      'louvain',
+      'h5py<=2.10.0'
 ]
 setup(name='vipcca',
-      version='0.2.2',
+      version='0.2.4',
       description='integration',
       long_description=long_description,
       long_description_content_type="text/markdown",
