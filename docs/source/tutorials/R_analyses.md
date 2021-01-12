@@ -4,7 +4,16 @@ We implement downstream analysis based on the R language and some R packages (Se
 
 ***
 
+### Required packages
+
+Several R packages need to be installed in the following analysis, including Seurat, SeuratDisk, kBET.
+
+***
+
+
+
 ### Read h5ad file with R
+
 **Import packages**
 
 ```R
@@ -22,8 +31,10 @@ Convert("/Users/zhongyuanke/data/vipcca/mixed_cell_lines_result/output_save.h5ad
 **Read h5seurat file into a Seurat Object**
 
 ```R
-mixed_cell_lines <- LoadH5Seurat("/Users/zhongyuanke/data/vipcca/mixed_cell_lines_result/output_save.h5seurat")
+mcl <- LoadH5Seurat("/Users/zhongyuanke/data/vipcca/mixed_cell_lines_result/output_save.h5seurat")
 ```
+
+***
 
 
 
@@ -53,8 +64,48 @@ subset_id <- sample.int(n = length(t(batch[["293t"]])), size = floor(subset_size
 batch.estimate_1 <- kBET(data_mix[["293t"]][subset_id,], batch[["293t"]][subset_id])
 ```
 
-<img src="" width="50%">
+<img src="https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_kbet.png" width="50%">
 
+
+
+***
+
+
+
+### Differential gene analyses
+We evaluate the results of integration by analyzing the differential expression  genes between different batches. For more detail, see the documentation of [FindMarkers()](https://www.rdocumentation.org/packages/Seurat/versions/3.1.4/topics/FindMarkers) function.
+
+First, we read the h5seurat file into a Seurat object.
+
+```R
+mcl <- LoadH5Seurat("/Users/zhongyuanke/data/vipcca/mixed_cell_lines_result/output_save.h5seurat")
+```
+
+We use 293T cells from batches of ‘293t’ and 'mixed as an example'.
+
+```R
+library(Seurat)
+
+Idents(mcl) <- 'celltype'
+mcl$celltype.cond <- paste(Idents(mcl), mcl@meta.data[['X_batch']], sep = "_")
+Idents(mcl) <- "celltype.cond"
+
+br <- FindMarkers(mcl, ident.1 = '293t', ident.2 = 'mixed', 
+                  slot = "data",
+                  logfc.threshold = 0.,
+                  test.use = "wilcox", 
+                  verbose = FALSE, 
+                  min.cells.feature = 1,
+                  min.cells.group = 1,
+                  min.pct = 0.1)
+
+boxplot(br$p_val_adj,
+        main = "Adjusted P-value for each gene",
+        xlab = "293T",
+        ylab = "Adjusted P-value")
+```
+
+<img src="https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_dge_pvalue.png" width="50%">
 
 
 ***
@@ -63,8 +114,17 @@ batch.estimate_1 <- kBET(data_mix[["293t"]][subset_id,], batch[["293t"]][subset_
 
 ### Plotting Enhanced Volcano
 
+Volcano plots represent a useful way to visualise the results of differential expression analyses. The smaller the number of differentially expressed genes between two batches, the better the effect of batch effect removal. For more detail, see the documentation of [EnhancedVolcano](https://github.com/kevinblighe/EnhancedVolcano).
+
 ```R
 library(EnhancedVolcano)
 
+EnhancedVolcano(br,
+                lab = rownames(br),
+                x = 'avg_log2FC',
+                y = 'p_val_adj',
+                title = 'Volcano plot for 293T',
+                )
 ```
 
+<img src="https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_volcano.png" width="50%">
