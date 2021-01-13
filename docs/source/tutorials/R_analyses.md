@@ -66,6 +66,8 @@ batch.estimate_1 <- kBET(data_mix[["293t"]][subset_id,], batch[["293t"]][subset_
 
 <img src="https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_kbet.png" width="50%">
 
+![kbet](https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_kbet.png)
+
 
 
 ***
@@ -107,6 +109,8 @@ boxplot(br$p_val_adj,
 
 <img src="https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_dge_pvalue.png" width="50%">
 
+![dge_pvalue](https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_dge_pvalue.png)
+
 
 ***
 
@@ -128,3 +132,5 @@ EnhancedVolcano(br,
 ```
 
 <img src="https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_volcano.png" width="50%">
+
+![volcano](https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_volcano.png)
