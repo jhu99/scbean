@@ -17,8 +17,8 @@ install_requires = [
       'louvain',
       'h5py<=2.10.0'
 ]
-setup(name='vipcca',
-      version='0.2.4',
+setup(name='scbean',
+      version='0.2.5',
       description='integration',
       long_description=long_description,
       long_description_content_type="text/markdown",

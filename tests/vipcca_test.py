@@ -1,14 +1,14 @@
-import VIPCCA as vp
-from VIPCCA import preprocessing as pp
-from VIPCCA import plotting as pl
+import scbean.model.vipcca as vip
+import scbean.tools.utils as tl
+import scbean.tools.plotting as pl
 
 # read single-cell data.
-adata_b1 = pp.read_sc_data("./data/mixed_cell_lines/293t.h5ad", batch_name="293t")
-adata_b2 = pp.read_sc_data("./data/mixed_cell_lines/jurkat.h5ad", batch_name="jurkat")
-adata_b3 = pp.read_sc_data("./data/mixed_cell_lines/mixed.h5ad", batch_name="mixed")
+adata_b1 = tl.read_sc_data("./data/mixed_cell_lines/293t.h5ad", batch_name="293t")
+adata_b2 = tl.read_sc_data("./data/mixed_cell_lines/jurkat.h5ad", batch_name="jurkat")
+adata_b3 = tl.read_sc_data("./data/mixed_cell_lines/mixed.h5ad", batch_name="mixed")
 
 # pp.preprocessing include filteration, log-TPM normalization, selection of highly variable genes.
-adata_all= pp.preprocessing([adata_b1, adata_b2, adata_b3])
+adata_all= tl.preprocessing([adata_b1, adata_b2, adata_b3])
 
 # VIPCCA will train the neural network on the provided datasets.
 handle = vp.VIPCCA(
@@ -20,7 +20,7 @@ handle = vp.VIPCCA(
 							)
 
 # transform user's single-cell data into shared low-dimensional space and recover gene expression.
-adata_transform=handle.fit_transform()
+adata_transform=handle.fit_integrate()
 
 # Visualization
 pl.run_embedding(adata_transform, path='./results/CVAE_5/',method="umap")
