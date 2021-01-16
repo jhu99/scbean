@@ -1,4 +1,4 @@
-# VIPCCA
+# scbea.VIPCCA
 [![Documentation Status](https://readthedocs.org/projects/vipcca/badge/?version=latest)](https://vipcca.readthedocs.io/en/latest/?badge=latest)
 ![PyPI](https://img.shields.io/pypi/v/scbean?color=blue)
 
@@ -11,22 +11,23 @@ introduction......
 ### Create conda enviroment
 
 ```shell
-$ conda create -n VIPCCA python=3.6
-$ conda activate VIPCCA
+$ conda create -n scbean python=3.6
+$ conda activate scbean
 ```
 For more information, see https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html
 
 ### Install VIPCCA from pypi
 
 ```shell
-$ pip install VIPCCA
+$ pip install scbean
 ```
 
 ### Install VIPCCA from GitHub source code
 ```shell
 
-$ git clone https://github.com/jhu99/VIPCCA.git
-$ pip install -e ./VIPCCA/
+$ git clone https://github.com/jhu99/scbean.git
+$ cd ./scbean/
+$ pip install .
 ```
 
 **Note**: Please make sure that the `pip` is for python>=3.6. The current release depends on tensorflow with version 1.15.4. Install tenserfolow-gpu if gpu is avialable on the machine.
@@ -41,9 +42,9 @@ https://vipcca.readthedocs.io/en/latest/
 Download example data at http://141.211.10.196/result/test/papers/vipcca/data.tar.gz
 
 ```python
-import vipcca as vip
-from vipcca import preprocessing as pp
-from vipcca import plotting as pl
+import scbean.vipcca as vip
+from scbean import preprocessing as pp
+from scbean import plotting as pl
 
 # read single-cell data.
 adata_b1 = pp.read_sc_data("./data/mixed_cell_lines/293t.h5ad", batch_name="293t")
