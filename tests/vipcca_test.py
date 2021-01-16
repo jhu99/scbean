@@ -2,6 +2,10 @@ import scbean.model.vipcca as vip
 import scbean.tools.utils as tl
 import scbean.tools.plotting as pl
 
+# If your script depends on a specific backend you can use the use() function:
+import matplotlib
+matplotlib.use('TkAgg')
+
 # read single-cell data.
 adata_b1 = tl.read_sc_data("./data/mixed_cell_lines/293t.h5ad", batch_name="293t")
 adata_b2 = tl.read_sc_data("./data/mixed_cell_lines/jurkat.h5ad", batch_name="jurkat")

@@ -1,10 +1,8 @@
 import scanpy as sc
 import pandas as pd
-import matplotlib
 import matplotlib.pyplot as pl
 import seaborn as sns
 import numpy as np
-matplotlib.use('TkAgg')
 
 fontsize=15
 params = {'legend.fontsize': fontsize,
