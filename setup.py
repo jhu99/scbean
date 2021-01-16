@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 install_requires = [
       'scanpy==1.6.0',
-      'tensorflow==2.4.0',
+      'tensorflow>=2.4.0',
       'anndata',
       'scipy',
       'pandas',
@@ -18,7 +18,7 @@ install_requires = [
       'h5py<=2.10.0'
 ]
 setup(name='scbean',
-      version='0.2.6',
+      version='0.2.7',
       description='integration',
       long_description=long_description,
       long_description_content_type="text/markdown",

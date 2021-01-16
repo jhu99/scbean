@@ -1,11 +1,12 @@
-# scbean.VIPCCA
+# scbean
 [![Documentation Status](https://readthedocs.org/projects/vipcca/badge/?version=latest)](https://vipcca.readthedocs.io/en/latest/?badge=latest)
 ![PyPI](https://img.shields.io/pypi/v/scbean?color=blue)
+scbean is a package we provide for single-cell data integration and other tasks.
 
+## scbean--VIPCCA 
 Variational inference of probabilistic canonical correlation analysis
 
 introduction......
-
 ............
 
 ### Create conda environment
@@ -16,22 +17,27 @@ $ conda activate scbean
 ```
 
 
-### Install VIPCCA from pypi
+### Install scbean from pypi
 
 ```shell
 $ pip install scbean
 ```
 
-### Install VIPCCA from GitHub source code
+### Install scbean from GitHub source code
 ```shell
-
 $ git clone https://github.com/jhu99/scbean.git
 $ cd ./scbean/
 $ pip install .
 ```
 
-**Note**: Please make sure that the `pip` is for python>=3.6. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
+**Note**: 
 
+- Please make sure that the `pip` is for python>=3.6. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
+
+- If there is a need to run large data sets, we provide version 1.1.1 (depending on tensorflow 1.15.1), which uses sparseTensor to reduce memory usage.
+```shell
+$ pip install scbean==1.1.1
+```
 
 ### Usage
 
