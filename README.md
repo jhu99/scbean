@@ -1,6 +1,7 @@
 # scbean
 [![Documentation Status](https://readthedocs.org/projects/vipcca/badge/?version=latest)](https://vipcca.readthedocs.io/en/latest/?badge=latest)
 ![PyPI](https://img.shields.io/pypi/v/scbean?color=blue)
+
 scbean is a package we provide for single-cell data integration and other tasks.
 
 ## scbean--VIPCCA 
