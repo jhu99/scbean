@@ -19,7 +19,7 @@ sys.path.insert(0, root_dir)
 
 # -- Project information -----------------------------------------------------
 
-project = 'VIPCCA'
+project = 'scbean'
 copyright = '2020, Jialu Hu'
 author = 'Jialu Hu'
 

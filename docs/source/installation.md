@@ -1,6 +1,6 @@
 # Installation
 
-- **Create conda enviroment**
+- **Create conda environment**
 
 For more information about conda environment, see this [tutorial](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html).
 
@@ -8,13 +8,13 @@ For more information about conda environment, see this [tutorial](https://docs.c
 $ conda create -n scbean python=3.6
 $ conda activate scbean
 ```
--  Install VIPCCA from pypi
+-  Install scbean from pypi
 
 ```shell
 $ pip install scbean
 ```
 
-- **Install VIPCCA from GitHub source code**
+- **Install scbean from GitHub source code**
 
 ```shell
 $ git clone https://github.com/jhu99/scbean.git
@@ -22,5 +22,5 @@ $ cd ./scbean/
 $ pip install .
 ```
 
-**Note**: Please make sure that the `pip` is for python>=3.6. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
+**Note**: Please make sure that the `pip` is for python>=3.6. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is available on the machine.
 

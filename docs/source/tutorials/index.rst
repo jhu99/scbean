@@ -1,4 +1,4 @@
-Tutorials for VIPCCA
+Tutorials for scbean--VIPCCA
 =========================================================
 
 .. toctree::
