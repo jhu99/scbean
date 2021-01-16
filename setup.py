@@ -7,18 +7,18 @@ with open("README.md", "r") as fh:
 
 install_requires = [
       'scanpy==1.6.0',
-      'tensorflow==1.15.4',
+      'tensorflow==2.4.0',
       'anndata',
       'scipy',
       'pandas',
       'seaborn',
-      'keras==2.3',
+      'keras',
       'python-igraph',
       'louvain',
       'h5py<=2.10.0'
 ]
 setup(name='scbean',
-      version='0.2.5',
+      version='0.2.6',
       description='integration',
       long_description=long_description,
       long_description_content_type="text/markdown",

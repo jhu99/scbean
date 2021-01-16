@@ -19,8 +19,8 @@ def read_sc_data(input_file, fmt='h5ad', backed=None, transpose=False, sparse=Fa
 	"""\
 	Read single cell dataset
 
-	Params
-	------
+	Parameters
+	----------
 
 	input_file : string
 		The path of the file to be read.

@@ -14,6 +14,7 @@ VIPCCA - Variational Inference
    api
 
 
+
 Indices and tables
 ==================
 

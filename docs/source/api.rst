@@ -3,8 +3,8 @@ API
 
 Preprocessing
 ---------------------
-.. automodule:: vipcca.preprocessing.preprocessing
-   :members: 
+.. automodule:: scbean.tools.utils
+   :members: read_sc_data,preprocessing
    :undoc-members:
    :show-inheritance:
 
@@ -12,7 +12,14 @@ Preprocessing
 VIPCCA
 ---------------------
 
-.. automodule:: vipcca.vipcca
-   :members:
+.. autoclass:: scbean.model.vipcca.VIPCCA
+   :members: 
+   :undoc-members:
+   :show-inheritance:
+
+Plotting
+---------------------
+.. automodule:: scbean.tools.plotting
+   :members: plotCorrelation
    :undoc-members:
    :show-inheritance:

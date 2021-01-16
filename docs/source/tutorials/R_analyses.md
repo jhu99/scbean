@@ -64,9 +64,7 @@ subset_id <- sample.int(n = length(t(batch[["293t"]])), size = floor(subset_size
 batch.estimate_1 <- kBET(data_mix[["293t"]][subset_id,], batch[["293t"]][subset_id])
 ```
 
-<img src="https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_kbet.png" width="50%">
-
-![kbet](https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_kbet.png)
+<img src="https://github.com/jhu99/scbean/blob/main/docs/source/tutorials/Rplot_kbet.png?raw=true" width="50%">
 
 
 
@@ -107,9 +105,7 @@ boxplot(br$p_val_adj,
         ylab = "Adjusted P-value")
 ```
 
-<img src="https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_dge_pvalue.png" width="50%">
-
-![dge_pvalue](https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_dge_pvalue.png)
+<img src="https://github.com/jhu99/scbean/blob/main/docs/source/tutorials/Rplot_dge_pvalue.png?raw=true" width="50%">
 
 
 ***
@@ -131,6 +127,4 @@ EnhancedVolcano(br,
                 )
 ```
 
-<img src="https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_volcano.png" width="50%">
-
-![volcano](https://github.com/jhu99/VIPCCA/blob/main/docs/source/tutorials/Rplot_volcano.png)
+<img src="https://github.com/jhu99/scbean/blob/main/docs/source/tutorials/Rplot_volcano.png?raw=true" width="50%">

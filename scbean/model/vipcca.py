@@ -243,12 +243,12 @@ class CVAE(VAE):
             # self.vae=load_model(self.path+model_file)
             self.vae.load_weights(self.path + model_file)
         else:
-            self.vae.fit([adata.X, adata.obsm['X_batch'], adata.obsm['X_batch2']], epochs=epochs, batch_size=batch_size,
+            self.vae.fit([adata.X.A, adata.obsm['X_batch'], adata.obsm['X_batch2']], epochs=epochs, batch_size=batch_size,
                          callbacks=self.callbacks, validation_split=self.validation_split, shuffle=True)
             self.vae.save(self.path + "model.h5")
 
     def integrate(self, xadata, save=True, use_mean=True):
-        [z_mean, z_log_var, z_batch] = self.encoder.predict([xadata.X, xadata.obsm['X_batch']])
+        [z_mean, z_log_var, z_batch] = self.encoder.predict([xadata.X.A, xadata.obsm['X_batch']])
         if use_mean:
             z_samples = z_mean
         else:
@@ -602,9 +602,13 @@ class VIPCCA(object):
         self.conf.l1_l2 = l1_l2
         self.conf.mode = mode
         self.conf.save = save
-        self.preprocessing()
+        self.vipcca_preprocessing()
 
-    def preprocessing(self):
+    def vipcca_preprocessing(self):
+        """
+        Generate the required random batch id for the VIPCCA model
+
+        """
         batch_int = self.conf.adata_all.obs[self.conf.split_by].astype("category").cat.codes.values
         np.random.seed(2019)
         batch_dic = np.random.randint(10, size=(np.max(batch_int) + 1, self.conf.batch_input_size))
@@ -616,9 +620,7 @@ class VIPCCA(object):
             X_batch2[i, :] = batch_dic2[batch_int[i], :]
         self.conf.adata_all.obsm["X_batch"] = X_batch
         self.conf.adata_all.obsm["X_batch2"] = X_batch2
-        print(batch_dic[0:3, ])
-        print(batch_dic2[0:3, ])
-        print(batch_dic.shape)
+
 
     def build(self):
         """
@@ -670,6 +672,14 @@ class VIPCCA(object):
         self.conf.net = net
 
     def fit_integrate(self):
+        """
+        Train the constructed VIPCCA model, integrate the data with the trained model,
+        and return the integrated anndata object
+
+        Returns
+        -------
+        AnnData
+        """
         self.build()
         self.conf.net.train(self.conf.adata_all, epochs=self.conf.epochs, model_file=self.conf.model_file)
         return self.conf.net.integrate(self.conf.adata_all, save=self.conf.save)
