@@ -53,7 +53,8 @@ def read_sc_data(input_file, fmt='h5ad', backed=None, transpose=False, sparse=Fa
 
 	Returns
 	-------
-	AnnData
+	:class:`~anndata.AnnData`
+		adata
 	"""
 	if fmt == '10x_h5':
 		adata = sc.read_10x_h5(input_file)
@@ -159,7 +160,8 @@ def preprocessing(datasets, min_cells=1, min_genes=1, n_top_genes=2000, mt_ratio
 
 	Returns
 	-------
-	AnnData
+	:class:`~anndata.AnnData`
+		adata_norm
 	"""
 	if lognorm:
 		for i in range(len(datasets)):

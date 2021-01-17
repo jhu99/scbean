@@ -15,7 +15,7 @@ adata_b3 = tl.read_sc_data("./data/mixed_cell_lines/mixed.h5ad", batch_name="mix
 adata_all= tl.preprocessing([adata_b1, adata_b2, adata_b3])
 
 # VIPCCA will train the neural network on the provided datasets.
-handle = vp.VIPCCA(
+handle = vip.VIPCCA(
 							adata_all,
 							res_path='./results/CVAE_5/',
 							split_by="_batch",

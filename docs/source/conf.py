@@ -79,3 +79,39 @@ html_static_path = ['_static']
 # 'scipy.interpolate', # 'scipy.special', 'math', '__future__', 'toolboxutilities']
 # for mod_name in MOCK_MODULES:
 #     sys.modules[mod_name] = mock.Mock()
+
+intersphinx_mapping = dict(
+    anndata=('https://anndata.readthedocs.io/en/stable/', None),
+    bbknn=('https://bbknn.readthedocs.io/en/latest/', None),
+    cycler=('https://matplotlib.org/cycler/', None),
+    h5py=('http://docs.h5py.org/en/stable/', None),
+    ipython=('https://ipython.readthedocs.io/en/stable/', None),
+    leidenalg=('https://leidenalg.readthedocs.io/en/latest/', None),
+    louvain=('https://louvain-igraph.readthedocs.io/en/latest/', None),
+    matplotlib=('https://matplotlib.org/', None),
+    networkx=('https://networkx.github.io/documentation/networkx-1.10/', None),
+    numpy=('https://docs.scipy.org/doc/numpy/', None),
+    pandas=('https://pandas.pydata.org/pandas-docs/stable/', None),
+    pytest=('https://docs.pytest.org/en/latest/', None),
+    python=('https://docs.python.org/3', None),
+    scipy=('https://docs.scipy.org/doc/scipy/reference/', None),
+    scvelo=('https://scvelo.readthedocs.io/', None),
+    seaborn=('https://seaborn.pydata.org/', None),
+    sklearn=('https://scikit-learn.org/stable/', None),
+)
+
+
+# Napoleon settings
+napoleon_google_docstring = True
+napoleon_numpy_docstring = True
+napoleon_include_init_with_doc = False
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = True
+napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_notes = False
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = True
+napoleon_use_rtype = True
+napoleon_type_aliases = None
+napoleon_attr_annotations = True

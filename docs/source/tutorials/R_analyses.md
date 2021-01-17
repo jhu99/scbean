@@ -1,4 +1,4 @@
-# Analysis of integrated result
+# Analysis of VIPCCA integrated result in R
 
 We implement downstream analysis based on the R language and some R packages (Seurat, KBET), including evaluating the degree of mixing and gene differential expression analysis.
 
