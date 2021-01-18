@@ -1,19 +1,14 @@
-# scbean
+# Scbean.VIPCCA
 [![Documentation Status](https://readthedocs.org/projects/vipcca/badge/?version=latest)](https://vipcca.readthedocs.io/en/latest/?badge=latest)
 ![PyPI](https://img.shields.io/pypi/v/scbean?color=blue)
 
-scbean is a package we provide for single-cell data integration and other tasks.
+Variational inference of probabilistic canonical correlation analysis (VIPCCA) was implemented in a python package scbean, providing a range of single-cell data analysis including dimension reduction, remvoing batch-effects, transfer well-annotated celltype labels from scRNA-seq onto scATAC-seq cells by learning from the integrated data. It's efficient and scalable for large-scale datasets with more than 1 million cells. We will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. The output can be easily used for downstream data analyses such as clustering, identification of cell subpopulations, differential genen expression, visualization using either Seurat or Scanpy.
 
-## scbean--VIPCCA 
-Variational inference of probabilistic canonical correlation analysis
-
-introduction......
-............
 
 ### Create conda environment
 For more information about conda environment, see this [tutorial](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html).
 ```shell
-$ conda create -n scbean python=3.6
+$ conda create -n scbean python=3.8
 $ conda activate scbean
 ```
 
@@ -33,7 +28,7 @@ $ pip install .
 
 **Note**: 
 
-- Please make sure that the `pip` is for python>=3.6. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
+- Please make sure that the `pip` is for python>=3.8. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
 
 - If there is a need to run large data sets, we provide version 1.1.1 (depending on tensorflow 1.15.1), which uses sparseTensor to reduce memory usage.
 ```shell
@@ -82,5 +77,3 @@ pl.run_embedding(adata_integrate, path='./results/CVAE_5/',method="umap")
 pl.plotEmbedding(adata_integrate, path='./results/CVAE_5/', method='umap', group_by="_batch",legend_loc="right margin")
 pl.plotEmbedding(adata_integrate, path='./results/CVAE_5/', method='umap', group_by="celltype",legend_loc="on data")
 ```
-
-
