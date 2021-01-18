@@ -60,7 +60,7 @@ adata_b3 = tl.read_sc_data("./data/mixed_cell_lines/mixed.h5ad", batch_name="mix
 # tl.preprocessing include filteration, log-TPM normalization, selection of highly variable genes.
 adata_all= tl.preprocessing([adata_b1, adata_b2, adata_b3])
 
-# Construct VIPCCA with .
+# Construct VIPCCA with specific setting.
 handle = vip.VIPCCA(
 							adata_all,
 							res_path='./results/CVAE_5/',
