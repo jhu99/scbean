@@ -39,7 +39,7 @@ $ pip install scbean==1.1.1
 
 For detailed guide about the usage of scbean, the tutorial and documentation were provided [here](https://vipcca.readthedocs.io/en/latest/).
 
-#### Quick start
+### Quick start
 
 Download the [data](http://141.211.10.196/result/test/papers/vipcca/data.tar.gz) of the following test code.
 
