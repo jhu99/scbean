@@ -18,21 +18,19 @@ Variational inference of probabilistic canonical correlation analysis (VIPCCA) w
   $ pip install scbean
   ```
 
-- Install scbean from GitHub source code
+- Alternatively, install the develop version of scbean from GitHub source code
 
   ```shell
   $ git clone https://github.com/jhu99/scbean.git
   $ cd ./scbean/
-  $ pip install .
+  $ python -m pip install .
   ```
 
-**Note**: Please make sure your python version >= 3.7. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
-
-
+**Note**: Please make sure your python version >= 3.7, and install tensorflow-gpu if GPU is available on your your machine.
 
 ### Usage
 
-For detailed guide about the usage of scbean, the tutorial and documentation were provided [here](https://vipcca.readthedocs.io/en/latest/).
+For detailed guide about the usage of scbean, the tutorial and documentation were provided [here](https://scbean.readthedocs.io/en/latest/).
 
 ### Quick start
 
@@ -43,7 +41,7 @@ import scbean.model.vipcca as vip
 import scbean.tools.utils as tl
 import scbean.tools.plotting as pl
 
-# If your script depends on a specific backend you can use the use() function:
+# Please choose an appropiate matplotlib backend.
 import matplotlib
 matplotlib.use('TkAgg')
 
@@ -64,7 +62,7 @@ handle = vip.VIPCCA(
 							lambda_regulizer=5,
 							)
 
-# Training and integrating multiple single-cell datasets. The output results include cell representation in reduced dimensional space and recovered gene expression.
+# Training and integrating multiple single-cell datasets. The VIPCCA's output include cell representation in reduced dimensional space and recovered gene expression.
 adata_integrate=handle.fit_integrate()
 
 # Visualization
