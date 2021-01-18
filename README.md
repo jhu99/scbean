@@ -3,11 +3,10 @@
 
 Variational inference of probabilistic canonical correlation analysis (VIPCCA) was implemented in a python package scbean, providing a range of single-cell data analysis including dimension reduction, remvoing batch-effects, transfer well-annotated celltype labels from scRNA-seq onto scATAC-seq cells by learning from the integrated data. It's efficient and scalable for large-scale datasets with more than 1 million cells. We will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. The output can be easily used for downstream data analyses such as clustering, identification of cell subpopulations, differential gene expression, visualization using either [Seurat](https://satijalab.org/seurat/) or [Scanpy](https://scanpy-tutorials.readthedocs.io).
 
-
 ### Installation
 
 - Create conda environment
-  
+
   ```shell
   $ conda create -n scbean python=3.8
   $ conda activate scbean
@@ -27,15 +26,7 @@ Variational inference of probabilistic canonical correlation analysis (VIPCCA) w
   $ pip install .
   ```
 
-**Note**: 
-
-- Please make sure your python version >= 3.7. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
-
-- If there is a need to run large data sets, we provide version 1.1.1 (depending on tensorflow 1.15.1), which uses sparseTensor to reduce memory usage.
-
-  ```shell
-  $ pip install scbean==1.1.1
-  ```
+**Note**: Please make sure your python version >= 3.7. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
 
 
 
