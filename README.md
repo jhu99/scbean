@@ -2,11 +2,11 @@
 [![Documentation Status](https://readthedocs.org/projects/vipcca/badge/?version=latest)](https://vipcca.readthedocs.io/en/latest/?badge=latest)
 ![PyPI](https://img.shields.io/pypi/v/scbean?color=blue)
 
-Variational inference of probabilistic canonical correlation analysis (VIPCCA) was implemented in a python package scbean, providing a range of single-cell data analysis including dimension reduction, remvoing batch-effects, transfer well-annotated celltype labels from scRNA-seq onto scATAC-seq cells by learning from the integrated data. It's efficient and scalable for large-scale datasets with more than 1 million cells. We will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. The output can be easily used for downstream data analyses such as clustering, identification of cell subpopulations, differential genen expression, visualization using either Seurat or Scanpy.
+Variational inference of probabilistic canonical correlation analysis (VIPCCA) was implemented in a python package scbean, providing a range of single-cell data analysis including dimension reduction, remvoing batch-effects, transfer well-annotated celltype labels from scRNA-seq onto scATAC-seq cells by learning from the integrated data. It's efficient and scalable for large-scale datasets with more than 1 million cells. We will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. The output can be easily used for downstream data analyses such as clustering, identification of cell subpopulations, differential genen expression, visualization using either [Seurat](https://satijalab.org/seurat/) or [Scanpy](https://scanpy-tutorials.readthedocs.io).
 
 
 ### Create conda environment
-For more information about conda environment, see this [tutorial](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html).
+For more information about how to manage conda environment, please see its [documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html).
 ```shell
 $ conda create -n scbean python=3.8
 $ conda activate scbean
@@ -37,11 +37,11 @@ $ pip install scbean==1.1.1
 
 ### Usage
 
-For detailed documentation, please check [here](https://vipcca.readthedocs.io/en/latest/).
+For detailed guide about the usage of scbean, the tutorial and documentation were provided [here](https://vipcca.readthedocs.io/en/latest/).
 
-#### Quick Start
+#### Quick start
 
-Download the [data](http://141.211.10.196/result/test/papers/vipcca/data.tar.gz) of the sample we provided.
+Download the [data](http://141.211.10.196/result/test/papers/vipcca/data.tar.gz) of the following test code.
 
 ```python
 import scbean.model.vipcca as vip
@@ -57,10 +57,10 @@ adata_b1 = tl.read_sc_data("./data/mixed_cell_lines/293t.h5ad", batch_name="293t
 adata_b2 = tl.read_sc_data("./data/mixed_cell_lines/jurkat.h5ad", batch_name="jurkat")
 adata_b3 = tl.read_sc_data("./data/mixed_cell_lines/mixed.h5ad", batch_name="mixed")
 
-# pp.preprocessing include filteration, log-TPM normalization, selection of highly variable genes.
+# tl.preprocessing include filteration, log-TPM normalization, selection of highly variable genes.
 adata_all= tl.preprocessing([adata_b1, adata_b2, adata_b3])
 
-# VIPCCA will train the neural network on the provided datasets.
+# Construct VIPCCA with .
 handle = vip.VIPCCA(
 							adata_all,
 							res_path='./results/CVAE_5/',
@@ -69,7 +69,7 @@ handle = vip.VIPCCA(
 							lambda_regulizer=5,
 							)
 
-# transform user's single-cell data into shared low-dimensional space and recover gene expression.
+# Training and integrating multiple single-cell datasets. The output results include cell representation in reduced dimensional space and recovered gene expression.
 adata_integrate=handle.fit_integrate()
 
 # Visualization
