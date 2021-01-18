@@ -59,7 +59,7 @@ class VAE:
         self.deterministic = deterministic
         self.save = save
         callbacks = []
-        checkpointer = ModelCheckpoint(filepath=path + "model_{epoch:04d}.h5", verbose=1, save_best_only=True,
+        checkpointer = ModelCheckpoint(filepath=path + "model_{epoch:04d}.h5", verbose=1, save_best_only=False,
                                        save_weights_only=False, period=100)
         reduce_lr = ReduceLROnPlateau(monitor='loss', factor=0.8, patience=patience_lr, min_lr=0.0001)
         early_stop = EarlyStopping(monitor='loss', patience=patience_es)
