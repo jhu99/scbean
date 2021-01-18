@@ -527,10 +527,10 @@ class VIPCCA(object):
     method: string, optional (default: 'lognorm')
         the normalization method for input data, one of {"qqnorm","count", other}.
 
-    batch_input_size: int, optional (default: 16)
+    batch_input_size: int, optional (default: 128)
         the length of the batch vector that concatenate with the input layer.
 
-    batch_input_size2: int, optional (default: 8)
+    batch_input_size2: int, optional (default: 16)
         the length of the batch vector that concatenate with the latent layer.
 
     activation: string, optional (default: "softplus")
@@ -542,7 +542,7 @@ class VIPCCA(object):
     hidden_layers: list, optional (default: [128,64,32,16])
         Number of hidden layer neurons in the model
 
-    lambda_regulizer: double, optional (default: 1.0)
+    lambda_regulizer: double, optional (default: 5.0)
         The coefficient multiplied by KL_loss
 
     initializer: string, optional (default: "glorot_uniform")
@@ -571,12 +571,12 @@ class VIPCCA(object):
                  split_by="_batch",
                  method="lognorm",
                  hvg=True,
-                 batch_input_size=16,
-                 batch_input_size2=8,
+                 batch_input_size=128,
+                 batch_input_size2=16,
                  activation="softplus",
                  dropout_rate=0.01,
                  hidden_layers=[128, 64, 32, 16],
-                 lambda_regulizer=1.0,
+                 lambda_regulizer=5.0,
                  initializer="glorot_uniform",
                  l1_l2=(0.0, 0.0),
                  mode="CVAE",
@@ -678,7 +678,8 @@ class VIPCCA(object):
 
         Returns
         -------
-        AnnData
+        :class:`~anndata.AnnData`
+		    adata produced by function self.conf.net.integrate(self.conf.adata_all, save=self.conf.save)
         """
         self.build()
         self.conf.net.train(self.conf.adata_all, epochs=self.conf.epochs, model_file=self.conf.model_file)

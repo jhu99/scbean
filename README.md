@@ -29,7 +29,7 @@ Variational inference of probabilistic canonical correlation analysis (VIPCCA) w
 
 **Note**: 
 
-- Please make sure that the `pip` is for python>=3.6. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
+- Please make sure your python version >= 3.7. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
 
 - If there is a need to run large data sets, we provide version 1.1.1 (depending on tensorflow 1.15.1), which uses sparseTensor to reduce memory usage.
 
