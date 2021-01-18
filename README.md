@@ -1,39 +1,45 @@
 # Scbean.VIPCCA
 [![Documentation Status](https://readthedocs.org/projects/vipcca/badge/?version=latest)](https://vipcca.readthedocs.io/en/latest/?badge=latest)
-![PyPI](https://img.shields.io/pypi/v/scbean?color=blue)
+![PyPI](https://img.shields.io/pypi/v/scbean?color=blue) [![Downloads](https://pepy.tech/badge/scbean)](https://pepy.tech/project/scbean) ![GitHub Repo stars](https://img.shields.io/github/stars/jhu99/scbean?style=plastic)
 
 Variational inference of probabilistic canonical correlation analysis (VIPCCA) was implemented in a python package scbean, providing a range of single-cell data analysis including dimension reduction, remvoing batch-effects, transfer well-annotated celltype labels from scRNA-seq onto scATAC-seq cells by learning from the integrated data. It's efficient and scalable for large-scale datasets with more than 1 million cells. We will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. The output can be easily used for downstream data analyses such as clustering, identification of cell subpopulations, differential gene expression, visualization using either [Seurat](https://satijalab.org/seurat/) or [Scanpy](https://scanpy-tutorials.readthedocs.io).
 
 
-### Create conda environment
-For more information about how to manage conda environment, please see its [documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html).
-```shell
-$ conda create -n scbean python=3.8
-$ conda activate scbean
-```
+### Installation
 
+- Create conda environment
+  For more information about conda environment, see this [tutorial](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html).
+  
+  ```shell
+  $ conda create -n scbean python=3.8
+  $ conda activate scbean
+  ```
 
-### Install scbean from pypi
+- Install scbean from pypi
 
-```shell
-$ pip install scbean
-```
+  ```shell
+  $ pip install scbean
+  ```
 
-### Install scbean from GitHub source code
-```shell
-$ git clone https://github.com/jhu99/scbean.git
-$ cd ./scbean/
-$ pip install .
-```
+- Install scbean from GitHub source code
+
+  ```shell
+  $ git clone https://github.com/jhu99/scbean.git
+  $ cd ./scbean/
+  $ pip install .
+  ```
 
 **Note**: 
 
-- Please make sure that the `pip` is for python>=3.8. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
+- Please make sure that the `pip` is for python>=3.6. The current release depends on tensorflow with version 2.4.0. Install tenserfolow-gpu if gpu is avialable on the machine.
 
 - If there is a need to run large data sets, we provide version 1.1.1 (depending on tensorflow 1.15.1), which uses sparseTensor to reduce memory usage.
-```shell
-$ pip install scbean==1.1.1
-```
+
+  ```shell
+  $ pip install scbean==1.1.1
+  ```
+
+
 
 ### Usage
 
