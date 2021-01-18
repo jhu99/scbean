@@ -1,5 +1,5 @@
 language: python
 sudo: required
-before_install: sudo pip install vipcca
+before_install: pip install scbean
 script: 
-  python -c "import vipcca"
+  python -c "import scbean"
