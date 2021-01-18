@@ -1,5 +1,5 @@
 # Scbean.VIPCCA
-[![Documentation Status](https://readthedocs.org/projects/vipcca/badge/?version=latest)](https://vipcca.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/scbean/badge/?version=latest)](https://scbean.readthedocs.io/en/latest/?badge=latest)
 ![PyPI](https://img.shields.io/pypi/v/scbean?color=blue) [![Downloads](https://pepy.tech/badge/scbean)](https://pepy.tech/project/scbean) ![GitHub Repo stars](https://img.shields.io/github/stars/jhu99/scbean?style=plastic)
 
 Variational inference of probabilistic canonical correlation analysis (VIPCCA) was implemented in a python package scbean, providing a range of single-cell data analysis including dimension reduction, remvoing batch-effects, transfer well-annotated celltype labels from scRNA-seq onto scATAC-seq cells by learning from the integrated data. It's efficient and scalable for large-scale datasets with more than 1 million cells. We will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. The output can be easily used for downstream data analyses such as clustering, identification of cell subpopulations, differential gene expression, visualization using either [Seurat](https://satijalab.org/seurat/) or [Scanpy](https://scanpy-tutorials.readthedocs.io).
