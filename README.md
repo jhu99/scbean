@@ -8,8 +8,6 @@ Variational inference of probabilistic canonical correlation analysis (VIPCCA) w
 ### Installation
 
 - Create conda environment
-
-  For more information about conda environment, see this [tutorial](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html).
   
   ```shell
   $ conda create -n scbean python=3.8
