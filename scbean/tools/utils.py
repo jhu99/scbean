@@ -84,6 +84,127 @@ def read_sc_data(input_file, fmt='h5ad', backed=None, transpose=False, sparse=Fa
 	return adata
 
 
+def concatenate_datasets(datasets):
+
+	"""/
+	concatenate single cell datasets
+
+	Parameters
+	----------
+	datasets: list
+		List of AnnData objects to be concatenate.
+
+	Returns
+	-------
+	:class:`~anndata.AnnData`
+		adata
+	"""
+	adata = datasets[0].concatenate(datasets[1])
+	for i in range(2, len(datasets)):
+		adata = adata.concatenate(datasets[i])
+	return adata
+
+
+def davae_preprocessing(datasets, min_cells=1, min_genes=1, n_top_genes=2000, mt_ratio=0.8, lognorm=True, hvg=True,
+						index_unique=None):
+	"""\
+		Preprocess and merge data sets from different batches
+
+		Parameters
+		----------
+
+		datasets: list, optional (default: None)
+			the list of anndata objects from different batches
+
+		min_cells: int, optional (default: 1)
+			Minimum number of counts required for a cell to pass filtering.
+
+		min_genes: int, optional (default: 1)
+			Minimum number of counts required for a gene to pass filtering.
+
+		n_top_genes: int, optional (default: 2000)
+			Number of highly-variable genes to keep.
+
+		mt_ratio: double, optional (default: 0.8)
+			Maximum proportion of mito genes for a cell to pass filtering.
+
+		lognorm: bool, optional (default: True)
+			If True, execute lognorm() function.
+
+		hvg: bool, optional (default: True)
+			If True, choose hypervariable genes for AnnData object.
+
+		index_unique: string, optional (default: None)
+			Make the index unique by joining the existing index names with the batch category, using
+			index_unique='-', for instance. Provide None to keep existing indices.
+
+		Returns
+		-------
+		:class:`~anndata.AnnData`
+			adata
+		"""
+	if lognorm:
+		for i in range(len(datasets)):
+			sc.pp.filter_genes(datasets[i], min_cells=min_cells)
+			sc.pp.filter_cells(datasets[i], min_genes=min_genes)
+			mito_genes = datasets[i].var_names.str.upper().str.startswith('MT-')
+			datasets[i].obs['percent_mito'] = np.sum(datasets[i][:, mito_genes].X, axis=1).A1 / np.sum(datasets[i].X,
+																									   axis=1).A1
+			datasets[i] = datasets[i][datasets[i].obs['percent_mito'] < mt_ratio, :]
+			datasets[i] = logNormalization(datasets[i])
+	all_features = pd.Index([])
+	for i in range(len(datasets)):
+		all_features = all_features.union(datasets[i].var_names)
+	common_features = all_features
+	for i in range(len(datasets)):
+		common_features = common_features.intersection(datasets[i].var.index)
+	df_var = pd.DataFrame(index=all_features)
+	df_var['selected'] = 0
+	if hvg:
+		for i in range(len(datasets)):
+			sc.pp.highly_variable_genes(datasets[i], flavor='seurat', n_top_genes=n_top_genes, inplace=True)
+			features = datasets[i].var_names[datasets[i].var['highly_variable']]
+			df_var.loc[features] += 1
+		df_var = df_var.loc[common_features]
+		df_var.sort_values(by="selected", ascending=False, inplace=True)
+		selected_features = df_var.index[range(n_top_genes)]
+	else:
+		selected_features = common_features
+	datasets[0] = datasets[0][:, selected_features]
+	datasets[1] = datasets[1][:, selected_features]
+
+	datasets[0].obs['loss_weight'] = 1.0
+	for i in range(1, len(datasets)):
+		datasets[i].obs['loss_weight'] = 0.0
+
+	for i in range(len(datasets)):
+		datasets[i].obs['batch_label'] = i
+
+	adata = datasets[0].concatenate(datasets[1], index_unique=index_unique)
+	for i in range(2, len(datasets)):
+		adata = adata.concatenate(datasets[i], index_unique=index_unique)
+	return adata
+
+
+def generate_batch_code(batch, batch_num):
+	batch_code = []
+	if batch_num == 2:
+		batch_code = to_categorical(batch)
+	if batch_num == 3:
+		for i in range(batch.shape[0]):
+			if batch[i] == 0:
+				batch_code.append([1, 1, 0, 1])
+			elif batch[i] == 1:
+				batch_code.append([0, 0, 1, 1])
+			else:
+				batch_code.append([0, 1, 1, 0])
+		batch_num = batch_num + 1
+	else:
+		batch_code = to_categorical(batch)
+	batch_code = np.array(batch_code)
+	return batch_code, batch_num
+
+
 def add_location(adata):
 	adata_loc = AnnData(adata.obs[['xcoord','ycoord']])
 	adata = adata.T.concatenate(adata_loc.T, index_unique=None).T
