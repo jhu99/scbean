@@ -3,6 +3,7 @@ import scbean.tools.utils as tl
 import scanpy as sc
 import matplotlib
 from numpy.random import seed
+import umap
 seed(2021)
 matplotlib.use('TkAgg')
 
@@ -15,13 +16,14 @@ adata_b2 = tl.read_sc_data(r2, batch_name='293t')
 adata_b3 = tl.read_sc_data(r3, batch_name='jurkat')
 
 adata_all = tl.davae_preprocessing([adata_b1, adata_b2, adata_b3], n_top_genes=2000)
-print(adata_all)
-adata_integrate = davae.fit_integration(adata_all, batch_num=3,
-                                        domain_lambda=3.0, epochs=25, sparse=True, hidden_layers=[128, 64, 32, 6])
-
-sc.pp.neighbors(adata_integrate, use_rep='X_davae', n_neighbors=8)
-sc.tl.umap(adata_integrate)
-# import umap
-# adata_integrate.obsm['X_umap']=umap.UMAP().fit_transform(adata_integrate.obsm['X_davae'])
+adata_integrate = davae.fit_integration(
+    adata_all,
+    batch_num=3,
+    domain_lambda=3.0,
+    epochs=25,
+    sparse=True,
+    hidden_layers=[64, 32, 6]
+)
+adata_integrate.obsm['X_umap']=umap.UMAP().fit_transform(adata_integrate.obsm['X_davae'])
 sc.pl.umap(adata_integrate, color=['_batch', 'celltype'], s=3)
 

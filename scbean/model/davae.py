@@ -91,7 +91,7 @@ class DAVAE:
         self.hidden_layers = hidden_layers
         self.domain_scale_factor = domain_scale_factor
         self.dropout_rate_small = 0.01
-        self.dropout_rate_big = 0.1
+        self.dropout_rate_big = 0.05
         self.kernel_regularizer = regularizers.l1_l2(l1=0.00, l2=0.00)
         self.validation_split = 0.0
         self.batches = batches
@@ -99,8 +99,8 @@ class DAVAE:
         callbacks = []
         checkpointer = ModelCheckpoint(filepath=path + "vae_weights.h5", verbose=1, save_best_only=False,
                                        save_weights_only=True)
-        reduce_lr = ReduceLROnPlateau(monitor='loss', factor=0.8, patience=10, min_lr=0.0001)
-        early_stop = EarlyStopping(monitor='loss', patience=60)
+        reduce_lr = ReduceLROnPlateau(monitor='loss', factor=0.8, patience=100, min_lr=0.0001)
+        early_stop = EarlyStopping(monitor='loss', patience=200)
         tensor_board = TensorBoard(log_dir=path + 'logs/')
         callbacks.append(checkpointer)
         callbacks.append(reduce_lr)
@@ -142,7 +142,7 @@ class DAVAE:
             x = Dense(ns, kernel_regularizer=self.kernel_regularizer, kernel_initializer=self.initializers)(x)
             x = BatchNormalization(center=True, scale=False)(x)
             x = Activation(Relu)(x)
-            x = Dropout(self.dropout_rate)(x)
+            x = Dropout(self.dropout_rate_big)(x)
 
         outputs_x = Dense(self.input_size, kernel_regularizer=self.kernel_regularizer,
                           kernel_initializer=self.initializers, activation="softplus")(x)
@@ -154,7 +154,7 @@ class DAVAE:
         d = Dense(16, kernel_regularizer=self.kernel_regularizer, kernel_initializer=self.initializers)(d)
         d = BatchNormalization(center=True, scale=False)(d)
         d = Activation(Relu)(d)
-        d = Dropout(0.05)(d)
+        d = Dropout(self.dropout_rate_big)(d)
 
         d = Dense(self.batches, kernel_regularizer=self.kernel_regularizer, kernel_initializer=self.initializers,
                   activation="softmax")(d)
@@ -202,7 +202,7 @@ class DAVAE:
 
 
 class DACVAE:
-    def __init__(self, input_size, batches=2, domain_scale_factor=1, hidden_layers=[128, 64, 32, 5], path=''):
+    def __init__(self, input_size, batches=2, domain_scale_factor=1.0, hidden_layers=[128, 64, 32, 5], path=''):
         self.input_size = input_size
         self.path = path
         self.dann_vae = None
@@ -221,8 +221,8 @@ class DACVAE:
         callbacks = []
         checkpointer = ModelCheckpoint(filepath=path + "vae_weights.h5", verbose=1, save_best_only=False,
                                        save_weights_only=True)
-        reduce_lr = ReduceLROnPlateau(monitor='loss', factor=0.8, patience=10, min_lr=0.0001)
-        early_stop = EarlyStopping(monitor='loss', patience=60)
+        reduce_lr = ReduceLROnPlateau(monitor='loss', factor=0.8, patience=100, min_lr=0.0001)
+        early_stop = EarlyStopping(monitor='loss', patience=200)
         tensor_board = TensorBoard(log_dir=path + 'logs/')
         callbacks.append(checkpointer)
         callbacks.append(reduce_lr)
@@ -247,7 +247,7 @@ class DACVAE:
             x = Dense(ns, kernel_regularizer=self.kernel_regularizer, kernel_initializer=self.initializers)(x)
             x = BatchNormalization(center=True, scale=False)(x)
             x = Activation(Relu)(x)
-            x = Dropout(self.dropout_rate)(x)
+            x = Dropout(self.dropout_rate_big)(x)
 
         hx_mean = Dense(z_size, kernel_regularizer=self.kernel_regularizer,
                         kernel_initializer=self.initializers,
@@ -267,7 +267,7 @@ class DACVAE:
             x = Dense(ns, kernel_regularizer=self.kernel_regularizer, kernel_initializer=self.initializers)(x)
             x = BatchNormalization(center=True, scale=False)(x)
             x = Activation(Relu)(x)
-            x = Dropout(self.dropout_rate)(x)
+            x = Dropout(self.dropout_rate_big)(x)
 
         outputs_x = Dense(self.input_size, kernel_regularizer=self.kernel_regularizer,
                           kernel_initializer=self.initializers, activation="softplus")(x)
@@ -280,7 +280,7 @@ class DACVAE:
         d = Dense(16, kernel_regularizer=self.kernel_regularizer, kernel_initializer=self.initializers)(d)
         d = BatchNormalization(center=True, scale=False)(d)
         d = Activation(Relu)(d)
-        d = Dropout(0.05)(d)
+        d = Dropout(self.dropout_rate_small)(d)
 
         d = Dense(self.batches, kernel_regularizer=self.kernel_regularizer, kernel_initializer=self.initializers,
                   activation="softmax")(d)
@@ -470,8 +470,8 @@ class DACVAE2:
         callbacks = []
         checkpointer = ModelCheckpoint(filepath=path + "vae_weights.h5", verbose=1, save_best_only=False,
                                        save_weights_only=True)
-        reduce_lr = ReduceLROnPlateau(monitor='loss', factor=0.8, patience=10, min_lr=0.0001)
-        early_stop = EarlyStopping(monitor='loss', patience=60)
+        reduce_lr = ReduceLROnPlateau(monitor='loss', factor=0.8, patience=100, min_lr=0.0001)
+        early_stop = EarlyStopping(monitor='loss', patience=200)
         tensor_board = TensorBoard(log_dir=path + 'logs/')
         callbacks.append(checkpointer)
         callbacks.append(reduce_lr)
@@ -576,8 +576,8 @@ class DACVAE2:
         return z_mean, output_x
 
 
-def fit_integration(adata, batch_num=2, mode='DACVAE', split_by='batch_label', epochs=200, batch_size=256,
-                    domain_lambda=5, sparse=False, hidden_layers=[128,64,32,5]):
+def fit_integration(adata, batch_num=2, mode='DACVAE', split_by='batch', epochs=20, batch_size=128,
+                    domain_lambda=1.0, sparse=True, hidden_layers=[128,64,32,5]):
     """/
     Build DAVAE model and fit the data to the model for training.
 
@@ -605,8 +605,11 @@ def fit_integration(adata, batch_num=2, mode='DACVAE', split_by='batch_label', e
     domain_lambda: double, optional (default: 1.0)
         The coefficient multiplied by the loss value of the domian classifier of DAVAE model.
 
-    sparse:
-        Matrix X in the AnnData object is stored as a sparse matrix.
+    sparse: bool, optional (default: True)
+        If True, Matrix X in the AnnData object is stored as a sparse matrix.
+
+    hidden_layers: list of integers, (default: [128,64,32,5])
+        Number of hidden layer neurons in the model.
 
     Returns
     -------

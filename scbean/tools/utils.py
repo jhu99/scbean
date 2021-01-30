@@ -108,41 +108,41 @@ def concatenate_datasets(datasets):
 def davae_preprocessing(datasets, min_cells=1, min_genes=1, n_top_genes=2000, mt_ratio=0.8, lognorm=True, hvg=True,
 						index_unique=None):
 	"""\
-		Preprocess and merge data sets from different batches
+	Preprocess and merge data sets from different batches
 
-		Parameters
-		----------
+	Parameters
+	----------
 
-		datasets: list, optional (default: None)
-			the list of anndata objects from different batches
+	datasets: list, optional (default: None)
+		the list of anndata objects from different batches
 
-		min_cells: int, optional (default: 1)
-			Minimum number of counts required for a cell to pass filtering.
+	min_cells: int, optional (default: 1)
+		Minimum number of counts required for a cell to pass filtering.
 
-		min_genes: int, optional (default: 1)
-			Minimum number of counts required for a gene to pass filtering.
+	min_genes: int, optional (default: 1)
+		Minimum number of counts required for a gene to pass filtering.
 
-		n_top_genes: int, optional (default: 2000)
-			Number of highly-variable genes to keep.
+	n_top_genes: int, optional (default: 2000)
+		Number of highly-variable genes to keep.
 
-		mt_ratio: double, optional (default: 0.8)
-			Maximum proportion of mito genes for a cell to pass filtering.
+	mt_ratio: double, optional (default: 0.8)
+		Maximum proportion of mito genes for a cell to pass filtering.
 
-		lognorm: bool, optional (default: True)
-			If True, execute lognorm() function.
+	lognorm: bool, optional (default: True)
+		If True, execute lognorm() function.
 
-		hvg: bool, optional (default: True)
-			If True, choose hypervariable genes for AnnData object.
+	hvg: bool, optional (default: True)
+		If True, choose hypervariable genes for AnnData object.
 
-		index_unique: string, optional (default: None)
-			Make the index unique by joining the existing index names with the batch category, using
-			index_unique='-', for instance. Provide None to keep existing indices.
+	index_unique: string, optional (default: None)
+		Make the index unique by joining the existing index names with the batch category, using
+		index_unique='-', for instance. Provide None to keep existing indices.
 
-		Returns
-		-------
-		:class:`~anndata.AnnData`
-			adata
-		"""
+	Returns
+	-------
+	:class:`~anndata.AnnData`
+		adata
+	"""
 	if lognorm:
 		for i in range(len(datasets)):
 			sc.pp.filter_genes(datasets[i], min_cells=min_cells)
@@ -183,6 +183,98 @@ def davae_preprocessing(datasets, min_cells=1, min_genes=1, n_top_genes=2000, mt
 	adata = datasets[0].concatenate(datasets[1], index_unique=index_unique)
 	for i in range(2, len(datasets)):
 		adata = adata.concatenate(datasets[i], index_unique=index_unique)
+	return adata
+
+
+def spatial_preprocessing(datasets, min_cells=1, min_genes=1, n_top_genes=2000, lognorm=True, hvg=True):
+	"""\
+	Preprocess and merge two visium datasets from different batches
+
+	Parameters
+	----------
+
+	datasets: list, optional (default: None)
+		The list of anndata objects from different batches
+
+	min_cells: int, optional (default: 1)
+		Minimum number of counts required for a cell to pass filtering.
+
+	min_genes: int, optional (default: 1)
+		Minimum number of counts required for a gene to pass filtering.
+
+	n_top_genes: int, optional (default: 2000)
+		Number of highly-variable genes to keep.
+
+	lognorm: bool, optional (default: True)
+		If True, execute lognorm() function.
+
+	hvg: bool, optional (default: True)
+		If True, choose hypervariable genes for AnnData object.
+
+	Returns
+	-------
+	:class:`~anndata.AnnData`
+		adata
+	"""
+	for i in range(len(datasets)):
+		sc.pp.normalize_total(datasets[i], inplace=True)
+		sc.pp.log1p(datasets[i])
+		sc.pp.highly_variable_genes(datasets[i], flavor="seurat", n_top_genes=n_top_genes, inplace=True)
+		datasets[i].obs['loss_weight'] = i
+	adata_spatial = datasets[0].concatenate(
+		datasets[1],
+		batch_key="library_id",
+		uns_merge="unique",
+		batch_categories=[
+			k
+			for d in [
+				datasets[0].uns["spatial"],
+				datasets[1].uns["spatial"],
+			]
+			for k, v in d.items()
+		],
+	)
+	return adata_spatial
+
+
+def spatial_rna_preprocessing(adata_spatial, adata_rna, lognorm=True, hvg=True, n_top_genes=2000):
+	'''\
+	Preprocess and merge visium dataset with scRNA-seq dataset.
+
+	Parameters
+	----------
+
+	adata_spatial: AnnData
+		AnnData object of visium dataset.
+
+	adata_rna: AnnData
+		AnnData object of scRNA-seq dataset.
+
+	lognorm: bool, optional (default: True)
+		If True, execute lognorm() function.
+
+	hvg: bool, optional (default: True)
+		If True, choose hypervariable genes for AnnData object.
+
+	n_top_genes: int, optional (default: 2000)
+		Number of highly-variable genes to keep.
+		
+	Returns
+	-------
+	:class:`~anndata.AnnData`
+		adata
+	'''
+	if lognorm:
+		sc.pp.log1p(adata_spatial)
+		sc.pp.log1p(adata_rna)
+		if hvg:
+			sc.pp.highly_variable_genes(adata_spatial, n_top_genes=8000)
+			sc.pp.highly_variable_genes(adata_rna, n_top_genes=8000)
+		adata_spatial = adata_spatial[:, adata_spatial.var.highly_variable]
+		adata_rna = adata_rna[:, adata_rna.var.highly_variable]
+	adata_spatial.obs['loss_weight'] = 0.0
+	adata_rna.obs['loss_weight'] = 1.0
+	adata = adata_spatial.concatenate(adata_rna)
 	return adata
 
 
@@ -247,7 +339,6 @@ def recipe_vipcca(adata, n_top_genes=2000, ncounts=1e6, min_cells=10, min_genes=
 
 def preprocessing(datasets, min_cells=1, min_genes=1, n_top_genes=2000, mt_ratio=0.8, lognorm=True, hvg=True,
 				index_unique=None):
-
 	"""\
 	Preprocess and merge data sets from different batches
 
