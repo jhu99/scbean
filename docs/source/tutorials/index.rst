@@ -4,10 +4,17 @@ Tutorials for scbean--VIPCCA
 .. toctree::
    :maxdepth: 2
 
-   mixed_cell_lines_tutorial
+   vipcca_mcl_tutorial
    R_analyses
-   atac_tutorial
+   vipcca_atac_tutorial
 
+Tutorials for scbean-- DAVAE
+=========================================================
+.. toctree::
+   :maxdepth: 2
+
+   davae_mcl_tutorial
+   davae_spatial
 
 Indices and tables
 ==================
