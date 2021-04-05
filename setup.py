@@ -18,7 +18,7 @@ install_requires = [
       'h5py'
 ]
 setup(name='scbean',
-      version='0.3.0',
+      version='0.4.1',
       description='integration',
       long_description=long_description,
       long_description_content_type="text/markdown",
