@@ -1,15 +1,17 @@
 # Scbean
 
-scbean integrates a range of models for single-cell data analysis, including dimensionality reduction, remvoing batch effects, and transferring well-annotated cell type labels from scRNA-seq to scATAC-seq. It is efficient and scalable for large-scale datasets.
-
 [![Documentation Status](https://readthedocs.org/projects/scbean/badge/?version=latest)](https://scbean.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://www.travis-ci.com/jhu99/scbean.svg?branch=main)](https://www.travis-ci.com/jhu99/scbean) ![PyPI](https://img.shields.io/pypi/v/scbean?color=blue) [![Downloads](https://pepy.tech/badge/scbean)](https://pepy.tech/project/scbean) ![GitHub Repo stars](https://img.shields.io/github/stars/jhu99/scbean?color=yellow)
+
+Scbean integrates a range of models for single-cell data analysis, including dimensionality reduction, remvoing batch effects, and transferring well-annotated cell type labels from scRNA-seq to scATAC-seq and spatial resoved transcriptomics. It is efficient and scalable for large-scale datasets.
+
+Scbean will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. 
 
 ## scbean.DAVAE
 
 Domain-adversarial and variational approximation framework, DAVAE, can integrate multiple single-cell data across samples, technologies and modalities without any post hoc data processing.
 DAVAE fit normalized gene expression into a non-linear model, which transforms a latent variable of a lower-dimension into expression space with a non-linear function, a KL regularizier and a domain-adversarial regularizer.
 
-We will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. The output can be easily used for downstream data analyses such as clustering, identification of cell subpopulations, differential gene expression, visualization using either [Seurat](https://satijalab.org/seurat/) or [Scanpy](https://scanpy-tutorials.readthedocs.io).
+The output of DAVAE can be easily used for downstream data analyses such as clustering, identification of cell subpopulations, differential gene expression, visualization using either [Seurat](https://satijalab.org/seurat/) or [Scanpy](https://scanpy-tutorials.readthedocs.io).
 
 ### Installation
 
@@ -47,6 +49,7 @@ Download the [data](http://141.211.10.196/result/test/papers/vipcca/data.tar.gz)
 ```python
 import scbean.model.davae as davae
 import scbean.tools.utils as tl
+import scanpy as sc
 
 # Please choose an appropiate matplotlib backend.
 import matplotlib

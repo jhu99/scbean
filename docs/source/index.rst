@@ -5,18 +5,30 @@
 
 scbean
 =========================================================
-scbean is a package we provide for single-cell data integration and other tasks.
+Scbean integrates a range of models for single-cell data analysis, including dimensionality reduction, remvoing batch effects, and transferring well-annotated cell type labels from scRNA-seq to scATAC-seq and spatial resoved transcriptomics. It is efficient and scalable for large-scale datasets.
 
+Scbean will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. 
 
-scbean--VIPCCA
+scbean Installation
 ==================
 .. toctree::
    :maxdepth: 2
 
    installation
-   tutorials/index.rst
-   api
 
+scbean Tutorial
+==================
+.. toctree::
+   :maxdepth: 2
+   
+   tutorials/index.rst
+
+scbean API
+==================  
+.. toctree::
+   :maxdepth: 2
+
+   api
 
 
 Indices and tables
