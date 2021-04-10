@@ -33,14 +33,9 @@ The output of our integrated data can be easily used for downstream data analyse
 
 **Note**: Please make sure your python version >= 3.7, and install tensorflow-gpu if GPU is available on your your machine.
 
-### Usage
+### Usage of scbean
 
-For detailed guide about the usage of scbean, the tutorial and documentation were provided [here](https://scbean.readthedocs.io/en/latest/).
-
-### Quick start with scbean
-
-Download the [data](http://141.211.10.196/result/test/papers/vipcca/data.tar.gz) of the following test code. 
-Please see the detailed [usage](https://scbean.readthedocs.io/en/latest/) in our tutorials of scbean.
+For a quick start, please first download our test [data](http://141.211.10.196/result/test/papers/vipcca/data.tar.gz), then follow our guide about the usage of scbean in the tutorial and documentation pages [here](https://scbean.readthedocs.io/en/latest/).
 
 
 
