@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 install_requires = [
       'scanpy',
-      'tensorflow',
+      'tensorflow==2.4.0',
       'anndata',
       'scipy',
       'pandas',
@@ -18,11 +18,11 @@ install_requires = [
       'h5py'
 ]
 setup(name='scbean',
-      version='0.4.1',
+      version='0.4.3',
       description='integration',
       long_description=long_description,
       long_description_content_type="text/markdown",
-      url='https://github.com/JHuLab/VIPCCA',
+      url='https://github.com/jhu99/scbean',
       author='Jialu Hu',
       author_email='jialuhu@umich.edu',
       license='MIT',
