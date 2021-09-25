@@ -31,7 +31,4 @@ Scbean integrates a range of models for single-cell data analysis, including dim
 
 ### Usage of scbean
 
-For a quick start, please first download our test [data](http://141.211.10.196/result/test/papers/vipcca/data.tar.gz), then follow our guide about the usage of scbean in the tutorial and documentation pages [here](https://scbean.readthedocs.io/en/latest/).
-
-
-
+For a quick start, please follow our guide about the usage of scbean in the [Tutorial and Documentation](https://scbean.readthedocs.io/en/latest/) pages.
