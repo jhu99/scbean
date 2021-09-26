@@ -1,5 +1,7 @@
 language: python
 sudo: required
-before_install: pip install scbean
+before_install: 
+  pip install scbean 
+  pip install packaging==20.0
 script: 
   python -c "import scbean"
