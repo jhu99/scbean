@@ -7,6 +7,7 @@ Scbean integrates a range of models for single-cell data analysis, including dim
 ### Citation
 
 Jialu Hu, Mengjie Chen, Xiang Zhou, Effective and scalable single-cell data alignment with non-linear canonical correlation analysis, Nucleic Acids Research, 2021, in press
+
 Jialu Hu, Yuanke Zhong, Xuequn Shang, A versatile and scalable single-cell data integration algorithm based on domain-adversarial and variational approximation, Briefings in Bioinformatics, 2021, bbab400, https://doi.org/10.1093/bib/bbab400
 
 ### Installation
