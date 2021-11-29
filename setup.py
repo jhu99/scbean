@@ -12,7 +12,7 @@ install_requires = [
       'scipy',
       'pandas',
       'seaborn',
-      'keras',
+      'keras==2.3.1',
       'python-igraph',
       'louvain',
       'h5py'
