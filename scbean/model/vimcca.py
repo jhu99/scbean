@@ -373,8 +373,43 @@ class VIMCCA:
 #         plt.show()
 
 
-def fit_integration(adata_x, adata_y, hidden_layers=[128,64,32,5], latent_xy_size=2, epochs=30,weight=5,
-                    sparse_x=False, sparse_y=False):
+def fit_integration(adata_x, adata_y, hidden_layers=[128,64,32,5], epochs=30,weight=5,
+                    sparse_x=False, sparse_y=False, batch_size=128):
+    """/
+    Build VIMCCA model and fit the data to the model for training.
+
+    Parameters
+    ----------
+    adata_x: AnnData
+        AnnData object for one of the modals.
+
+    adata_y: AnnData
+        AnnData object for another of the modals.
+
+    epochs: int, optional (default: 200)
+        Number of epochs to train the model. An epoch is an iteration over the entire x and y data provided.
+
+    batch_size: int or None, optional (default: 128)
+        Number of samples per gradient update. If unspecified, batch_size will default to 128.
+
+    weight: double, optional (default: 5.0)
+        The weights of the reconstruction loss for the second modality data.
+
+    sparse_x: bool, optional (default: False)
+        If True, Matrix X in the AnnData object is stored as a sparse matrix.
+
+    sparse_y: bool, optional (default: False)
+        If True, Matrix Y in the AnnData object is stored as a sparse matrix.
+
+    hidden_layers: list of integers, (default: [128,64,32,5])
+        Number of hidden layer neurons in the model.
+
+    Returns
+    ----------
+        :class:`~Numpy array(s)`
+            z
+    """
+
     if sparse_x:
         x = adata_x.X.A
     else:

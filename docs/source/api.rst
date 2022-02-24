@@ -17,13 +17,6 @@ Plotting
    :show-inheritance:
 
 
-VIPCCA
----------------------
-.. autoclass:: scbean.model.vipcca.VIPCCA
-   :members: 
-   :undoc-members:
-   :show-inheritance:
-
 
 DAVAE
 ---------------------
@@ -31,3 +24,20 @@ DAVAE
    :members: fit_integration
    :undoc-members:
    :show-inheritance:
+
+
+VIPCCA
+---------------------
+.. autoclass:: scbean.model.vipcca.VIPCCA
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+VIMCCA
+---------------------
+.. automodule:: scbean.model.vimcca
+   :members: fit_integration
+   :undoc-members:
+   :show-inheritance:
+

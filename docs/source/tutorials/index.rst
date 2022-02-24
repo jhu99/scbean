@@ -18,6 +18,13 @@ Tutorials for scbean--VIPCCA
    vipcca_atac_tutorial
 
 
+Tutorials for scbean--VIMCCA
+=========================================================
+
+.. toctree::
+   :maxdepth: 2
+
+   vimcca_atac_rna_tutorial
 
 Indices and tables
 ==================
