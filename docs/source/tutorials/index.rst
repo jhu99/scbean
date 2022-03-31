@@ -25,6 +25,8 @@ Tutorials for scbean--VIMCCA
    :maxdepth: 2
 
    vimcca_atac_rna_tutorial
+   vimcca_protein_rna_tutorial
+   vimcca_bmcite_rna_protein_tutorial
 
 Indices and tables
 ==================
