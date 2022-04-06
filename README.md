@@ -5,11 +5,11 @@
 Scbean integrates a range of models for single-cell data analysis, including dimensionality reduction, remvoing batch effects, and transferring well-annotated cell type labels from scRNA-seq to scATAC-seq and spatial resoved transcriptomics. It is efficient and scalable for large-scale datasets. Scbean will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. The output of our integrated data can be easily used for downstream data analyses such as clustering, identification of cell subpopulations, differential gene expression, visualization using either [Seurat](https://satijalab.org/seurat/) or [Scanpy](https://scanpy-tutorials.readthedocs.io).
 
 # Analysis of single-cell omics data
-&emsp;&emsp;- [DAVAE](https://academic.oup.com/bib/article/23/1/bbab400/6377528?login=true) for integration of single-cell data based on domain-adversarial and variational approximation
-&emsp;&emsp;- [VIPCCA](https://academic.oup.com/nar/article/50/4/e21/6454289?login=true) for single-cell data alignment with non-linear canonical correlation analysis 
-&emsp;&emsp;- [VIMCCA](https://scbean.readthedocs.io/en/latest/tutorials/index.html#tutorials-for-scbean-vimcca) for integration of paired multimodal single-cell data
+- [DAVAE](https://academic.oup.com/bib/article/23/1/bbab400/6377528?login=true) for integration of single-cell data based on domain-adversarial and variational approximation
+- [VIPCCA](https://academic.oup.com/nar/article/50/4/e21/6454289?login=true) for single-cell data alignment with non-linear canonical correlation analysis 
+- [VIMCCA](https://scbean.readthedocs.io/en/latest/tutorials/index.html#tutorials-for-scbean-vimcca) for integration of paired multimodal single-cell data
 
-All these implementations have a high-level API that interacts with scanpy, standard save/load functions, and support GPU acceleration.
+&emsp;&emsp;All these implementations have a high-level API that interacts with scanpy, standard save/load functions, and support GPU acceleration.
 
 ### Citation
 Jialu Hu, Mengjie Chen, Xiang Zhou, Effective and scalable single-cell data alignment with non-linear canonical correlation analysis, Nucleic Acids Research, Volume 50, Issue 4, 28 February 2022, Page e21, https://doi.org/10.1093/nar/gkab1147
