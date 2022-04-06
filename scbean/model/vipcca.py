@@ -6,13 +6,13 @@ import os
 import os.path
 import datetime
 import tensorflow as tf
-from keras.layers import Input, Dense, Activation, BatchNormalization, Dropout, Lambda, Concatenate, concatenate, Add
-from keras.models import Model, Sequential, load_model
-from keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
-from keras import backend as K
-from keras import optimizers, regularizers, initializers
-from keras.utils import plot_model
-from keras.losses import mse, binary_crossentropy
+from tensorflow.keras.layers import Input, Dense, Activation, BatchNormalization, Dropout, Lambda, Concatenate, concatenate, Add
+from tensorflow.keras.models import Model, Sequential, load_model
+from tensorflow.keras.callbacks import TensorBoard, ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras import backend as K
+from tensorflow.keras import optimizers, regularizers, initializers
+from tensorflow.keras.utils import plot_model
+from tensorflow.keras.losses import mse, binary_crossentropy
 from scipy.sparse import csr_matrix
 
 def sampling(args):
