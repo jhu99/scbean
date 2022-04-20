@@ -1,10 +1,12 @@
-import vgp
+import scbean.model.vgp as vgp
 import pandas as pd
 import multiprocessing as mp
 
+# load data (example: MOB)
 filepath = 'data/real_data/Rep11_MOB_count_matrix-1.tsv'
 data = pd.read_csv(filepath, sep='\t')
-# ---Split position---
+
+# data preprocessing
 position = pd.DataFrame(index=data.index)
 position['x'] = data['Unnamed: 0'].str.split('x').str.get(0).map(float)
 position['y'] = data['Unnamed: 0'].str.split('x').str.get(1).map(float)
