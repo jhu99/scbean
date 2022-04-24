@@ -18,13 +18,13 @@ install_requires = [
       'h5py'
 ]
 setup(name='scbean',
-      version='0.4.3',
+      version='0.5.0',
       description='integration',
       long_description=long_description,
       long_description_content_type="text/markdown",
       url='https://github.com/jhu99/scbean',
       author='Jialu Hu',
-      author_email='jialuhu@umich.edu',
+      author_email='jhu@nwpu.edu.cn',
       license='MIT',
       packages=find_packages(),
       install_requires=install_requires,
