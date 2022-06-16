@@ -1,4 +1,4 @@
-# Analysis of VGP result in R
+# Analysis of VISGP result in R
 We mapped the expression pattern of the SV genes based on R language and some R software packages.
 
 
