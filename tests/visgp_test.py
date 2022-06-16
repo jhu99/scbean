@@ -1,4 +1,4 @@
-import scbean.model.vgp as vgp
+import scbean.model.visgp as visgp
 import pandas as pd
 import multiprocessing as mp
 
@@ -20,5 +20,5 @@ X = position.values
 Y = data
 
 if __name__ == '__main__':
-    result = vgp.run(X, Y, mp.cpu_count())
+    result = visgp.run(X, Y, mp.cpu_count())
     print(result)
