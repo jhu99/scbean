@@ -15,6 +15,8 @@ Jialu Hu, Mengjie Chen, Xiang Zhou, Effective and scalable single-cell data alig
 
 Jialu Hu, Yuanke Zhong, Xuequn Shang, A versatile and scalable single-cell data integration algorithm based on domain-adversarial and variational approximation, Briefings in Bioinformatics, Volume 23, Issue 1, January 2022, bbab400, https://doi.org/10.1093/bib/bbab400
 
+Hu, Jialu, Yiran Wang, Xiang Zhou, and Mengjie Chen. "Pre-processing, Dimension Reduction, and Clustering for Single-Cell RNA-seq Data." In Handbook of Statistical Bioinformatics, pp. 37-51. Springer, Berlin, Heidelberg, 2022. https://doi.org/10.1007/978-3-662-65902-1_2
+
 ### Installation
 
 - Create conda environment
