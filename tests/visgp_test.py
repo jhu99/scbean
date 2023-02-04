@@ -1,6 +1,7 @@
 import scbean.model.visgp as visgp
 import pandas as pd
 import multiprocessing as mp
+import anndata as ad
 
 # load data (example: MOB)
 filepath = 'data/real_data/Rep11_MOB_count_matrix-1.tsv'
@@ -15,10 +16,13 @@ data = data.T[data.sum(0) >= 10].T  # Filter practically unobserved genes
 data = data.T  # genes * position
 position = position[data.sum(0) >= 10]
 data = data.T[data.sum(0) >= 10].T
+obs = pd.DataFrame()
+obs['gene_name'] = data.index.values
 
-X = position.values
-Y = data
+adata = ad.AnnData(data.values, obs=obs, var=position, dtype='float64')
 
-if __name__ == '__main__':
-    result = visgp.run(X, Y, mp.cpu_count())
-    print(result)
+# data preprocessing
+#obj = visgp.VISGP(adata, processes=mp.cpu_count())
+obj = visgp.VISGP(adata)
+results = obj.run_visgp()
+print(results)
