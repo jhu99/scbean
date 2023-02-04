@@ -21,7 +21,8 @@ obs['gene_name'] = data.index.values
 
 adata = ad.AnnData(data.values, obs=obs, var=position, dtype='float64')
 
-# data preprocessing
+
+
 #obj = visgp.VISGP(adata, processes=mp.cpu_count())
 obj = visgp.VISGP(adata)
 results = obj.run_visgp()
