@@ -29,7 +29,7 @@ Tutorials for scbean--VIMCCA
    vimcca_bmcite_rna_protein_tutorial
 
 
-Tutorials for scbean--VIMCCA
+Tutorials for scbean--VISGP
 =========================================================
 
 .. toctree::
