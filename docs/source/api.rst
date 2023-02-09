@@ -41,3 +41,11 @@ VIMCCA
    :undoc-members:
    :show-inheritance:
 
+
+VISGP
+---------------------
+.. automodule:: scbean.model.visgp.VISGP
+   :members: 
+   :undoc-members:
+   :show-inheritance:
+
