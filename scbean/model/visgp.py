@@ -41,7 +41,6 @@ class VISGP(object):
         self.processes = processes
         self.acc = 1e-7
 
-        
     def covariance_matrix(self, length):
         """
         Calculate the covariance matrix.
@@ -54,7 +53,6 @@ class VISGP(object):
         K = np.exp(-R2 / (2 * length ** 2))
         return K
 
-    
     def score_test(self, K, y):
         """
         Score statistics test.
@@ -76,7 +74,6 @@ class VISGP(object):
         alphars = np.concatenate((eigenvalues[:k] - float(r) / n, np.ones(q) * -float(r) / n), axis=0)
         return qf.qf(0, alphars, acc=self.acc)[0]
 
-    
     def qvalue(self, pv):
         """
         Calculate Q values using BH adjustment.
@@ -98,7 +95,6 @@ class VISGP(object):
         qv = qv.reshape(original_shape)
         return qv
 
-    
     def build(self, k, y):
         """
         Build and training model.
@@ -156,12 +152,11 @@ class VISGP(object):
         p_value = self.score_test(K, y)
         return k, p_value
 
-    
     def run_visgp(self):
         """
         :return: results(DataFrame)
         """
-        names = self.adata.obs.values
+        names = self.adata.obs
         y_all_genes = self.adata.X  # genes*spots(ndarray)
         y_all_genes = y_all_genes.T
         y_all_genes = preprocessing.scale(y_all_genes)
@@ -172,7 +167,7 @@ class VISGP(object):
         if self.processes == 1:
             for k in tqdm(range(num_genes)):
                 k, p_value = self.build(k, y_all_genes[k])
-                results.loc[k, 'gene'] = names[k]
+                results.loc[k, 'gene'] = names.iloc[k, 0]
                 results.loc[k, 'p_value'] = p_value
         else:
             args = []
@@ -185,7 +180,7 @@ class VISGP(object):
             pool.join()
             print("Results....................")
             for k in tqdm(range(num_genes)):
-                results.loc[k, 'gene'] = names[result[k][0]]
+                results.loc[k, 'gene'] = names.iloc[result[k][0], 0]
                 results.loc[k, 'p_value'] = result[k][1]
 
         q_value = self.qvalue(results['p_value'].values)
