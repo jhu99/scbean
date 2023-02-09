@@ -28,6 +28,17 @@ Tutorials for scbean--VIMCCA
    vimcca_protein_rna_tutorial
    vimcca_bmcite_rna_protein_tutorial
 
+
+Tutorials for scbean--VIMCCA
+=========================================================
+
+.. toctree::
+   :maxdepth: 2
+
+   visgp_tutorial
+   visgp_R_analysis
+
+
 Indices and tables
 ==================
 
