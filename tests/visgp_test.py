@@ -25,5 +25,5 @@ adata = ad.AnnData(data.values, obs=obs, var=position, dtype='float64')
 
 #obj = visgp.VISGP(adata, processes=mp.cpu_count())
 obj = visgp.VISGP(adata)
-results = obj.run_visgp()
+results = obj.run()
 print(results)
