@@ -152,7 +152,7 @@ class VISGP(object):
         p_value = self.score_test(K, y)
         return k, p_value
 
-    def run_visgp(self):
+    def run(self):
         """
         :return: results(DataFrame)
         """
