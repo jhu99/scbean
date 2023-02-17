@@ -19,8 +19,11 @@ os.environ["CUDA_VISIBLE_DEVICES"] = '-1'  # not GPU
 class VISGP(object):
     """
     Initialize VISGP object
+    
     Parameters
-    ------------------------
+    
+    ----------
+    
     adata: anndata, (default: None)
         The input data for the model, including gene expression levels (adata.X, genes*spots),
         spatial location coordinates (adata.var) and genes name (adata.obs).
@@ -33,6 +36,7 @@ class VISGP(object):
 
     processes: int, optional (default: 1)
         The number of concurrent processes.
+        
     """
     def __init__(self, adata=None, inducing_points=20, iters=1000, processes=1):
         self.adata = adata

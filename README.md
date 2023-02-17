@@ -5,15 +5,19 @@
 Scbean integrates a range of models for single-cell data analysis, including dimensionality reduction, remvoing batch effects, and transferring well-annotated cell type labels from scRNA-seq to scATAC-seq and spatial resoved transcriptomics. It is efficient and scalable for large-scale datasets. Scbean will also provide more fundamental analyses for multi-modal data and spatial resoved transcriptomics in the future. The output of our integrated data can be easily used for downstream data analyses such as clustering, identification of cell subpopulations, differential gene expression, visualization using either [Seurat](https://satijalab.org/seurat/) or [Scanpy](https://scanpy-tutorials.readthedocs.io).
 
 ### Three APIs for the analysis of single-cell omics data
-- [DAVAE](https://academic.oup.com/bib/article/23/1/bbab400/6377528?login=true) for integration of single-cell data based on domain-adversarial and variational approximation
-- [VIPCCA](https://academic.oup.com/nar/article/50/4/e21/6454289?login=true) for single-cell data alignment with non-linear canonical correlation analysis 
-- [VIMCCA](https://scbean.readthedocs.io/en/latest/tutorials/index.html#tutorials-for-scbean-vimcca) for integration of paired multimodal single-cell data (unpublished)
+- [DAVAE](https://academic.oup.com/bib/article/23/1/bbab400/6377528?login=true) supports integration of scRNA-seq, scATAC-seq, spatial transcriptomics based on domain-adversarial and variational approximation.
+- [VIPCCA](https://academic.oup.com/nar/article/50/4/e21/6454289?login=true) supports integration of unpaired single-cell multi-omics data, differential gene expression analysis based on non-linear canonical correlation analysis.
+- [VIMCCA](https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btad005/6978155) supports joint-analysis of paired multimodal single-cell data based on multi-view latent variable model.
 
 
 ### Citation
+Yuwei Wang, Bin Lian, Haohui Zhang, Yuanke Zhong, Jie He, Fashuai Wu, Knut Reinert, Xuequn Shang, Hui Yang, Jialu Hu, A multi-view latent variable model reveals cellular heterogeneity in complex tissues for paired multimodal single-cell data, Bioinformatics, Volume 39, Issue 1, January 2023, btad005, https://doi.org/10.1093/bioinformatics/btad005
+
 Jialu Hu, Mengjie Chen, Xiang Zhou, Effective and scalable single-cell data alignment with non-linear canonical correlation analysis, Nucleic Acids Research, Volume 50, Issue 4, 28 February 2022, Page e21, https://doi.org/10.1093/nar/gkab1147
 
 Jialu Hu, Yuanke Zhong, Xuequn Shang, A versatile and scalable single-cell data integration algorithm based on domain-adversarial and variational approximation, Briefings in Bioinformatics, Volume 23, Issue 1, January 2022, bbab400, https://doi.org/10.1093/bib/bbab400
+
+Jialu Hu, Yiran Wang, Xiang Zhou, and Mengjie Chen. "Pre-processing, Dimension Reduction, and Clustering for Single-Cell RNA-seq Data." In Handbook of Statistical Bioinformatics, pp. 37-51. Springer, Berlin, Heidelberg, 2022. https://doi.org/10.1007/978-3-662-65902-1_2
 
 ### Installation
 
