@@ -99,6 +99,7 @@ intersphinx_mapping = dict(
     scvelo=('https://scvelo.readthedocs.io/', None),
     seaborn=('https://seaborn.pydata.org/', None),
     sklearn=('https://scikit-learn.org/stable/', None),
+    fastlmm=('https://pypi.org/project/fastlmm/0.5.10/', None),
 )
 
 
