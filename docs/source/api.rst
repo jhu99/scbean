@@ -44,7 +44,7 @@ VIMCCA
 
 VISGP
 ---------------------
-.. autoclass:: scbean.model.visgp
+.. autoclass:: scbean.model.VISGP
    :members: 
    :undoc-members:
    :show-inheritance:
