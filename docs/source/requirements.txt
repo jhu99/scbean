@@ -19,7 +19,6 @@ defusedxml==0.6.0
 desc==2.1.1
 docutils==0.16
 entrypoints==0.3
-fastlmm==0.4.10
 flatbuffers==1.12
 gast==0.3.3
 get-version==2.1
@@ -128,3 +127,4 @@ webencodings==0.5.1
 Werkzeug==1.0.1
 wrapt==1.12.1
 zipp==3.4.0
+fastlmm==0.5.10
