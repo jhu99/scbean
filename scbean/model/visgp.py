@@ -48,8 +48,15 @@ class VISGP(object):
     def covariance_matrix(self, length):
         """
         Calculate the covariance matrix.
-        :param length: kernel parameter
-        :return: Covariance matrix
+        
+        Parameters
+        ----------
+        length: int
+            kernel parameter
+        
+        Returns
+        ----------
+        Covariance matrix
         """
         Xsq = np.sum(np.square(self.adata.var), 1)
         R2 = -2. * np.dot(self.adata.var, self.adata.var.T) + (Xsq[:, None] + Xsq[None, :])
@@ -60,9 +67,17 @@ class VISGP(object):
     def score_test(self, K, y):
         """
         Score statistics test.
-        :param K: Covariance matrix
-        :param y: A vector representing the expression value of a gene
-        :return: P value of a gene
+        
+        Parameters
+        ----------
+        K: 
+            Covariance matrix
+        y: 
+            A vector representing the expression value of a gene
+        
+        Returns
+        ----------
+        P value of a gene
         """
         n = self.adata.n_vars
         # Perform the eigendecomposition
@@ -81,8 +96,15 @@ class VISGP(object):
     def qvalue(self, pv):
         """
         Calculate Q values using BH adjustment.
-        :param pv: P values of all genes
-        :return: Q values of all genes
+        
+        Parameters
+        ----------
+        pv: 
+            P values of all genes
+        
+        Returns
+        ----------
+        Q values of all genes
         """
         original_shape = pv.shape
         pv = pv.ravel()
@@ -102,9 +124,17 @@ class VISGP(object):
     def build(self, k, y):
         """
         Build and training model.
-        :param k: Used to mark a gene
-        :param y: A vector representing the expression value of a gene
-        :return: k and p-value
+        
+        Parameters
+        ----------
+        k: int
+            Used to mark a gene
+        y: 
+            A vector representing the expression value of a gene
+        
+        Returns
+        ----------
+        k and p-value
         """
         # Create kernel parameters, and observation noise variance variable
         amplitude = tfp.util.TransformedVariable(1., tfb.Softplus(), dtype=dtype, name='amplitude')
@@ -158,7 +188,11 @@ class VISGP(object):
 
     def run(self):
         """
-        :return: results(DataFrame)
+        Run VISGP
+        
+        Returns
+        ----------
+        results(DataFrame)
         """
         names = self.adata.obs
         y_all_genes = self.adata.X  # genes*spots(ndarray)
