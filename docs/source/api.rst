@@ -34,14 +34,6 @@ VIPCCA
    :show-inheritance:
 
 
-VISGP
----------------------
-.. autoclass:: scbean.model.visgp.VISGP
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 VIMCCA
 ---------------------
 .. automodule:: scbean.model.vimcca
@@ -49,6 +41,13 @@ VIMCCA
    :undoc-members:
    :show-inheritance:
 
+
+VISGP
+---------------------
+.. autoclass:: scbean.model.visgp.VISGP
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 
 
