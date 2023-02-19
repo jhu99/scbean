@@ -56,7 +56,8 @@ class VISGP(object):
         
         Returns
         ----------
-        Covariance matrix
+        :class:`~Numpy array(s)`
+            Covariance matrix
         """
         Xsq = np.sum(np.square(self.adata.var), 1)
         R2 = -2. * np.dot(self.adata.var, self.adata.var.T) + (Xsq[:, None] + Xsq[None, :])
@@ -77,7 +78,8 @@ class VISGP(object):
         
         Returns
         ----------
-        P value of a gene
+        :class:`~float`
+            P value of a gene
         """
         n = self.adata.n_vars
         # Perform the eigendecomposition
@@ -104,7 +106,8 @@ class VISGP(object):
         
         Returns
         ----------
-        Q values of all genes
+        :class:`~Numpy array(s)`
+            Q values of all genes
         """
         original_shape = pv.shape
         pv = pv.ravel()
@@ -134,7 +137,8 @@ class VISGP(object):
         
         Returns
         ----------
-        k and p-value
+        :class:`~int` and `~float`
+            k and p-value
         """
         # Create kernel parameters, and observation noise variance variable
         amplitude = tfp.util.TransformedVariable(1., tfb.Softplus(), dtype=dtype, name='amplitude')
@@ -188,11 +192,12 @@ class VISGP(object):
 
     def run(self):
         """
-        Run VISGP
+        Run VISGP.
         
         Returns
         ----------
-        results(DataFrame)
+        :class:`~pandas.core.frame.DataFrame`
+            results, including ['gene', 'p_value', 'q_value']
         """
         names = self.adata.obs
         y_all_genes = self.adata.X  # genes*spots(ndarray)
