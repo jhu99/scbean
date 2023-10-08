@@ -8,6 +8,7 @@ Scbean integrates a range of models for single-cell data analysis, including dim
 - [DAVAE](https://academic.oup.com/bib/article/23/1/bbab400/6377528?login=true) supports integration of scRNA-seq, scATAC-seq, spatial transcriptomics based on domain-adversarial and variational approximation.
 - [VIPCCA](https://academic.oup.com/nar/article/50/4/e21/6454289?login=true) supports integration of unpaired single-cell multi-omics data, differential gene expression analysis based on non-linear canonical correlation analysis.
 - [VIMCCA](https://academic.oup.com/bioinformatics/advance-article/doi/10.1093/bioinformatics/btad005/6978155) supports joint-analysis of paired multimodal single-cell data based on multi-view latent variable model.
+- [VISGP](https://scbean.readthedocs.io/en/latest/tutorials/visgp_tutorial.html) supports the discovery of spatially variable genes exhibiting distinct expression patterns in spatial transcriptome data.
 
 
 ### Citation
