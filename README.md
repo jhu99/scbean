@@ -1,4 +1,4 @@
-<img src="https://github.com/jhu99/scbean/blob/main/IMG_2119.jpg" width="64"/>
+<img src="https://github.com/jhu99/scbean/blob/main/IMG_2119.jpg" width="128"/>
 
 # Scbean
 
