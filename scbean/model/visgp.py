@@ -4,7 +4,8 @@ import numpy as np
 from sklearn import preprocessing
 import multiprocessing
 from tqdm import tqdm
-import fastlmm.util.stats.quadform as qf
+#import fastlmm.util.stats.quadform as qf
+import fastlmmclib.quadform as qf
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 import tensorflow as tf
 import tensorflow_probability as tfp
