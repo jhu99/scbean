@@ -15,7 +15,8 @@ install_requires = [
       'keras==2.3.1',
       'python-igraph',
       'louvain',
-      'h5py'
+      'h5py',
+      'fastlmmclib'
 ]
 setup(name='scbean',
       version='0.5.5',
