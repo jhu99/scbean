@@ -19,7 +19,7 @@ install_requires = [
       'fastlmmclib'
 ]
 setup(name='scbean',
-      version='0.5.5',
+      version='0.5.6',
       description='integration',
       long_description=long_description,
       long_description_content_type="text/markdown",
