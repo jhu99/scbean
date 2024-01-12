@@ -1,4 +1,4 @@
-<img src="https://github.com/jhu99/scbean/blob/main/logo.jpg" width="128"/>
+<img src="https://github.com/jhu99/scbean/blob/main/logo.jpeg" width="128"/>
 
 [![Documentation Status](https://readthedocs.org/projects/scbean/badge/?version=latest)](https://scbean.readthedocs.io/en/latest/?badge=latest) ![PyPI](https://img.shields.io/pypi/v/scbean?color=blue) [![Downloads](https://static.pepy.tech/badge/scbean)](https://pepy.tech/project/scbean) ![GitHub Repo stars](https://img.shields.io/github/stars/jhu99/scbean?color=yellow)
 
