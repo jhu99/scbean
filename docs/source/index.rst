@@ -28,7 +28,7 @@ scbean API
 .. toctree::
    :maxdepth: 2
 
-   api
+   api.rst
 
 
 Indices and tables
