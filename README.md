@@ -13,6 +13,8 @@ Scbean integrates a range of models for single-cell data analysis, including dim
 
 
 ### Citation
+Haohui Zhang, Yuwei Wang, Bin Lian, Yiran Wang, Xingyi Li, Tao Wang, Xuequn Shang, Hui Yang, Ahmad Aziz, Jialu Hu, Scbean: a python library for single-cell multi-omics data analysis, Bioinformatics, 2024;, btae053, https://doi.org/10.1093/bioinformatics/btae053
+
 Yuwei Wang, Bin Lian, Haohui Zhang, Yuanke Zhong, Jie He, Fashuai Wu, Knut Reinert, Xuequn Shang, Hui Yang, Jialu Hu, A multi-view latent variable model reveals cellular heterogeneity in complex tissues for paired multimodal single-cell data, Bioinformatics, Volume 39, Issue 1, January 2023, btad005, https://doi.org/10.1093/bioinformatics/btad005
 
 Jialu Hu, Mengjie Chen, Xiang Zhou, Effective and scalable single-cell data alignment with non-linear canonical correlation analysis, Nucleic Acids Research, Volume 50, Issue 4, 28 February 2022, Page e21, https://doi.org/10.1093/nar/gkab1147
