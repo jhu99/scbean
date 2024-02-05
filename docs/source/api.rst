@@ -9,12 +9,7 @@ Preprocessing
    :show-inheritance:
 
 
-Plotting
----------------------
-.. automodule:: tools.plotting
-   :members: plotCorrelation
-   :undoc-members:
-   :show-inheritance:
+
 Plotting
 ---------------------
 .. automodule:: tools.plotting
