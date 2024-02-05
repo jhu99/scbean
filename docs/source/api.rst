@@ -3,7 +3,7 @@ API
 
 Preprocessing
 ---------------------
-.. automodule:: utils   
+.. automodule:: scbean.tools.utils   
    :members: read_sc_data,preprocessing,davae_preprocessing, spatial_preprocessing, spatial_rna_preprocessing
    :undoc-members:
    :show-inheritance:
@@ -11,7 +11,7 @@ Preprocessing
 
 Plotting
 ---------------------
-.. automodule:: plotting
+.. automodule:: scbean.tools.plotting
    :members: plotCorrelation
    :undoc-members:
    :show-inheritance:
@@ -20,7 +20,7 @@ Plotting
 
 DAVAE
 ---------------------
-.. automodule:: davae
+.. automodule:: scbean.model.davae
    :members: fit_integration
    :undoc-members:
    :show-inheritance:
@@ -28,7 +28,7 @@ DAVAE
 
 VIPCCA
 ---------------------
-.. autoclass:: vipcca.VIPCCA
+.. autoclass:: scbean.model.vipcca.VIPCCA
    :members:
    :undoc-members:
    :show-inheritance:
@@ -36,7 +36,7 @@ VIPCCA
 
 VIMCCA
 ---------------------
-.. automodule:: vimcca
+.. automodule:: scbean.model.vimcca
    :members: fit_integration
    :undoc-members:
    :show-inheritance:
@@ -44,7 +44,7 @@ VIMCCA
 
 VISGP
 ---------------------
-.. autoclass:: visgp.VISGP
+.. autoclass:: scbean.model.visgp.VISGP
    :members: 
    :undoc-members:
    :show-inheritance:
