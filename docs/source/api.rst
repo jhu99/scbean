@@ -3,7 +3,7 @@ API
 
 Preprocessing
 ---------------------
-.. automodule:: scbean.tools.utils   
+.. automodule:: utils   
    :members: read_sc_data,preprocessing,davae_preprocessing, spatial_preprocessing, spatial_rna_preprocessing
    :undoc-members:
    :show-inheritance:
