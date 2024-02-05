@@ -30,4 +30,4 @@ setup(name='scbean',
       packages=find_packages(),
       install_requires=install_requires,
       zip_safe=False,
-      python_requires='>=3.7',)
+      python_requires='>=3.6',)
