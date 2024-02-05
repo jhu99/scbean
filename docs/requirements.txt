@@ -3,3 +3,4 @@ IPython
 nbsphinx
 recommonmark
 numpy
+pandas
