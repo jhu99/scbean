@@ -9,22 +9,9 @@ Preprocessing
    :show-inheritance:
 
 
-
 Plotting
 ---------------------
-.. automodule:: tools.plotting
-   :members: plotCorrelation
-   :undoc-members:
-   :show-inheritance:
-Plotting
----------------------
-.. automodule:: tools.plotting
-   :members: plotCorrelation
-   :undoc-members:
-   :show-inheritance:
-Plotting
----------------------
-.. automodule:: tools.plotting
+.. automodule:: scbean.tools.plotting
    :members: plotCorrelation
    :undoc-members:
    :show-inheritance:
@@ -33,7 +20,7 @@ Plotting
 
 DAVAE
 ---------------------
-.. automodule:: model.davae
+.. automodule:: scbean.model.davae
    :members: fit_integration
    :undoc-members:
    :show-inheritance:
@@ -41,7 +28,7 @@ DAVAE
 
 VIPCCA
 ---------------------
-.. autoclass:: model.vipcca.VIPCCA
+.. autoclass:: scbean.model.vipcca.VIPCCA
    :members:
    :undoc-members:
    :show-inheritance:
@@ -49,7 +36,7 @@ VIPCCA
 
 VIMCCA
 ---------------------
-.. automodule:: model.vimcca
+.. automodule:: scbean.model.vimcca
    :members: fit_integration
    :undoc-members:
    :show-inheritance:
@@ -57,7 +44,7 @@ VIMCCA
 
 VISGP
 ---------------------
-.. autoclass:: model.visgp.VISGP
+.. autoclass:: scbean.model.visgp.VISGP
    :members: 
    :undoc-members:
    :show-inheritance:
