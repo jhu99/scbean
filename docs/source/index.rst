@@ -26,9 +26,9 @@ scbean Tutorial
 scbean API
 ==================  
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
-   api.rst
+   api
 
 
 Indices and tables
