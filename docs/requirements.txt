@@ -5,6 +5,5 @@ recommonmark
 numpy
 pandas
 anndata
-os
 matplotlib
 seaborn
