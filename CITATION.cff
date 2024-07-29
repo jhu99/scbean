@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Hu
+    given-names: Jialu
+    orcid: https://orcid.org/0000-0002-3351-8020
+title: "Scbean: a toolkit for integrating single-cell multimodal data"
+version: 0.5.6
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.10611941
+date-released: 2024-02-02
