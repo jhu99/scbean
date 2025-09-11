@@ -8,6 +8,7 @@ with open("README.md", "r") as fh:
 install_requires = [
       'scanpy',
       'tensorflow==2.4.0',
+      'tensorflow-probability==0.12.1',
       'anndata',
       'scipy',
       'pandas',
