@@ -38,32 +38,150 @@ class VISGP(object):
     processes: int, optional (default: 1)
         The number of concurrent processes.
         
+    kernel_type: str, optional (default: 'rbf')
+        Type of kernel to use: 'rbf', 'matern', 'periodic', 'anisotropic', or 'multi'.
+        
+    nu: float, optional (default: 1.5)
+        Shape parameter for Matérn kernel (1.5, 2.5, or inf).
     """
-    def __init__(self, adata=None, inducing_points=20, iters=1000, processes=1):
+    def __init__(self, adata=None, inducing_points=20, iters=1000, processes=1, 
+                 kernel_type='rbf', nu=1.5):
         self.adata = adata
         self.inducing_points = inducing_points
         self.iters = iters
         self.processes = processes
         self.acc = 1e-7
+        self.kernel_type = kernel_type
+        self.nu = nu
 
-    def covariance_matrix(self, length):
+    def covariance_matrix(self, length, kernel_type=None):
         """
-        Calculate the covariance matrix.
+        Calculate the covariance matrix using specified kernel.
         
         Parameters
         ----------
-        length: int
-            kernel parameter
+        length: float or dict
+            kernel parameter (float for most kernels, dict for anisotropic)
+        kernel_type: str, optional
+            Type of kernel. If None, uses self.kernel_type
         
         Returns
         ----------
         :class:`~Numpy array(s)`
             Covariance matrix
         """
+        if kernel_type is None:
+            kernel_type = self.kernel_type
+            
+        if kernel_type == 'rbf':
+            return self._rbf_kernel(length)
+        elif kernel_type == 'matern':
+            return self._matern_kernel(length)
+        elif kernel_type == 'periodic':
+            return self._periodic_kernel(length)
+        elif kernel_type == 'anisotropic':
+            return self._anisotropic_kernel(length)
+        elif kernel_type == 'multi':
+            return self._multi_kernel(length)
+        else:
+            raise ValueError(f"Unknown kernel type: {kernel_type}")
+
+    def _rbf_kernel(self, length):
+        """
+        RBF (Squared Exponential) kernel.
+        K(x, y) = exp(-||x - y||^2 / (2 * length^2))
+        """
         Xsq = np.sum(np.square(self.adata.var), 1)
         R2 = -2. * np.dot(self.adata.var, self.adata.var.T) + (Xsq[:, None] + Xsq[None, :])
         R2 = np.clip(R2, 1e-12, np.inf)
         K = np.exp(-R2 / (2 * length ** 2))
+        return K
+
+    def _matern_kernel(self, length):
+        """
+        Matérn kernel with shape parameter nu.
+        More flexible than RBF, less smooth for smaller nu values.
+        nu: 1.5, 2.5, or inf (inf = RBF)
+        """
+        Xsq = np.sum(np.square(self.adata.var), 1)
+        R2 = -2. * np.dot(self.adata.var, self.adata.var.T) + (Xsq[:, None] + Xsq[None, :])
+        R = np.sqrt(np.clip(R2, 1e-12, np.inf))
+        
+        if self.nu == 1.5:
+            K = (1 + np.sqrt(3) * R / length) * np.exp(-np.sqrt(3) * R / length)
+        elif self.nu == 2.5:
+            K = (1 + np.sqrt(5) * R / length + 5 * R**2 / (3 * length**2)) * np.exp(-np.sqrt(5) * R / length)
+        else:  # nu = inf, equivalent to RBF
+            K = np.exp(-R2 / (2 * length ** 2))
+        
+        return K
+
+    def _periodic_kernel(self, length):
+        """
+        Periodic kernel for capturing periodic spatial patterns.
+        K(x, y) = exp(-2 * sin^2(pi * ||x - y|| / period) / length^2)
+        """
+        Xsq = np.sum(np.square(self.adata.var), 1)
+        R2 = -2. * np.dot(self.adata.var, self.adata.var.T) + (Xsq[:, None] + Xsq[None, :])
+        R = np.sqrt(np.clip(R2, 1e-12, np.inf))
+        
+        # Use length as both period and lengthscale
+        period = length * 2.0
+        K = np.exp(-2.0 * np.sin(np.pi * R / period) ** 2 / (length ** 2))
+        
+        return K
+
+    def _anisotropic_kernel(self, length_dict):
+        """
+        Anisotropic kernel with different lengthscales for each dimension.
+        Useful for capturing directional spatial patterns.
+        
+        Parameters
+        ----------
+        length_dict: dict
+            Dictionary with 'scales' key containing array of lengthscales per dimension
+        """
+        if isinstance(length_dict, (int, float)):
+            # Fallback to RBF if scalar is provided
+            return self._rbf_kernel(length_dict)
+            
+        scales = length_dict.get('scales', np.array([1.0, 1.0]))
+        
+        X = self.adata.var.values
+        n = X.shape[0]
+        K = np.zeros((n, n))
+        
+        # Scale coordinates by lengthscales
+        X_scaled = X / scales[np.newaxis, :]
+        
+        # Compute RBF kernel on scaled coordinates
+        Xsq = np.sum(np.square(X_scaled), 1)
+        R2 = -2. * np.dot(X_scaled, X_scaled.T) + (Xsq[:, None] + Xsq[None, :])
+        R2 = np.clip(R2, 1e-12, np.inf)
+        K = np.exp(-R2 / 2.0)
+        
+        return K
+
+    def _multi_kernel(self, length):
+        """
+        Multi-kernel approach: weighted combination of different kernels.
+        Improves robustness across diverse spatial patterns.
+        K_multi = w1*RBF + w2*Matérn + w3*Periodic
+        """
+        # Weights for kernel combination
+        w_rbf = 0.5
+        w_matern = 0.3
+        w_periodic = 0.2
+        
+        K_rbf = self._rbf_kernel(length)
+        K_matern = self._matern_kernel(length)
+        K_periodic = self._periodic_kernel(length)
+        
+        K = w_rbf * K_rbf + w_matern * K_matern + w_periodic * K_periodic
+        
+        # Normalize to ensure valid covariance matrix
+        K = K / (w_rbf + w_matern + w_periodic)
+        
         return K
 
     def score_test(self, K, y):
@@ -102,11 +220,10 @@ class VISGP(object):
         
         Parameters
         ----------
-        pv: 
-            P values of all genes
+        pv:             P values of all genes
         
         Returns
-        ----------
+        -------
         :class:`~Numpy array(s)`
             Q values of all genes
         """
@@ -116,14 +233,15 @@ class VISGP(object):
         p_ordered = np.argsort(pv)
         pv = pv[p_ordered]
         qv = np.zeros_like(pv)
-        qv[-1] = pv[-1]
+        qv[-1] = min(pv[-1], 1.0)
+        
         for i in range(len(pv) - 2, -1, -1):
-            qv[i] = min(m * pv[i] / (i + 1), pv[i + 1])
-        qv_temp = qv.copy()
-        qv = np.zeros_like(qv)
-        qv[p_ordered] = qv_temp
-        qv = qv.reshape(original_shape)
-        return qv
+            qv[i] = min(m * pv[i] / (i + 1), qv[i + 1])
+        
+        qv_temp = np.zeros_like(qv)
+        qv_temp[p_ordered] = qv
+        qv_temp = qv_temp.reshape(original_shape)
+        return qv_temp
 
     def build(self, k, y):
         """
@@ -144,8 +262,18 @@ class VISGP(object):
         # Create kernel parameters, and observation noise variance variable
         amplitude = tfp.util.TransformedVariable(1., tfb.Softplus(), dtype=dtype, name='amplitude')
         length_scale = tfp.util.TransformedVariable(1., tfb.Softplus(), dtype=dtype, name='length_scale')
-        # k(x, y) = amplitude**2 * exp(-||x - y||**2 / (2 * length_scale**2))
-        kernel = tfk.ExponentiatedQuadratic(amplitude=amplitude, length_scale=length_scale)
+        
+        # Create kernel based on kernel_type
+        if self.kernel_type in ['rbf', 'matern', 'periodic']:
+            kernel = tfk.ExponentiatedQuadratic(amplitude=amplitude, length_scale=length_scale)
+        elif self.kernel_type == 'anisotropic':
+            # For anisotropic, still use ExponentiatedQuadratic but we'll handle scaling in covariance_matrix
+            kernel = tfk.ExponentiatedQuadratic(amplitude=amplitude, length_scale=length_scale)
+        elif self.kernel_type == 'multi':
+            kernel = tfk.ExponentiatedQuadratic(amplitude=amplitude, length_scale=length_scale)
+        else:
+            kernel = tfk.ExponentiatedQuadratic(amplitude=amplitude, length_scale=length_scale)
+        
         observation_noise_variance = tfp.util.TransformedVariable(
             1., tfb.Softplus(), dtype=dtype, name='observation_noise_variance')
         # Create trainable inducing point locations and variational parameters.
@@ -187,6 +315,7 @@ class VISGP(object):
 
         for i in range(self.iters):
             optimize(index_points_, y)
+        
         K = self.covariance_matrix(length_scale.numpy())
         p_value = self.score_test(K, y)
         return k, p_value
