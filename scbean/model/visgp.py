@@ -45,7 +45,7 @@ class VISGP(object):
         Shape parameter for Matérn kernel (1.5, 2.5, or inf).
     """
     def __init__(self, adata=None, inducing_points=20, iters=1000, processes=1, 
-                 kernel_type='rbf', nu=1.5):
+                 kernel_type='rbf', nu=1.5, period=0.1):
         self.adata = adata
         self.inducing_points = inducing_points
         self.iters = iters
@@ -53,6 +53,7 @@ class VISGP(object):
         self.acc = 1e-7
         self.kernel_type = kernel_type
         self.nu = nu
+        self.period=period
 
     def covariance_matrix(self, length, kernel_type=None):
         """
@@ -78,7 +79,7 @@ class VISGP(object):
         elif kernel_type == 'matern':
             return self._matern_kernel(length)
         elif kernel_type == 'periodic':
-            return self._periodic_kernel(length)
+            return self._periodic_kernel(length, self.period)
         elif kernel_type == 'anisotropic':
             return self._anisotropic_kernel(length)
         elif kernel_type == 'multi':
@@ -116,19 +117,16 @@ class VISGP(object):
         
         return K
 
-    def _periodic_kernel(self, length):
+    def _periodic_kernel(self, length_scale, period):
         """
-        Periodic kernel for capturing periodic spatial patterns.
-        K(x, y) = exp(-2 * sin^2(pi * ||x - y|| / period) / length^2)
+        Standard periodic kernel.
+        K(x,y) = exp(-2 * sin^2(pi * ||x-y|| / period) / length_scale^2)
         """
         Xsq = np.sum(np.square(self.adata.var), 1)
         R2 = -2. * np.dot(self.adata.var, self.adata.var.T) + (Xsq[:, None] + Xsq[None, :])
         R = np.sqrt(np.clip(R2, 1e-12, np.inf))
         
-        # Use length as both period and lengthscale
-        period = length * 2.0
-        K = np.exp(-2.0 * np.sin(np.pi * R / period) ** 2 / (length ** 2))
-        
+        K = np.exp(-2.0 * np.sin(np.pi * R / period) ** 2 / (length_scale ** 2))
         return K
 
     def _anisotropic_kernel(self, length_dict):
@@ -170,17 +168,15 @@ class VISGP(object):
         """
         # Weights for kernel combination
         w_rbf = 0.5
-        w_matern = 0.3
-        w_periodic = 0.2
+        w_matern = 0.5
         
         K_rbf = self._rbf_kernel(length)
         K_matern = self._matern_kernel(length)
-        K_periodic = self._periodic_kernel(length)
         
-        K = w_rbf * K_rbf + w_matern * K_matern + w_periodic * K_periodic
+        K = w_rbf * K_rbf + w_matern * K_matern
         
         # Normalize to ensure valid covariance matrix
-        K = K / (w_rbf + w_matern + w_periodic)
+        K = K / (w_rbf + w_matern)
         
         return K
 
